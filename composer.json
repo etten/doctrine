@@ -1,0 +1,26 @@
+{
+	"name": "etten/doctrine",
+	"description": "Doctrine helpers and extensions for Nette Framework",
+	"keywords": ["nette", "kdyby", "doctrine"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Jaroslav Hranička",
+			"email": "hranicka@outlook.com"
+		}
+	],
+	"require": {
+		"php": ">=5.6",
+		"kdyby/doctrine": "~3.0",
+		"ramsey/uuid-doctrine": "^1.1"
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^2.5",
+		"etten/codestyle": "^1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Etten\\Doctrine\\": "src/"
+		}
+	}
+}
