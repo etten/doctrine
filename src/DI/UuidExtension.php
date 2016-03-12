@@ -27,13 +27,16 @@ class UuidExtension extends NDI\CompilerExtension
 		foreach ($connections as $connection) {
 			foreach ($this->types as $dbType => $doctrineType) {
 				$connection->addSetup(
-					'$platform = $this->getDatabasePlatform();' . "\n" .
-					'$platform->registerDoctrineTypeMapping($dbType = ?, $doctrineType = ?);' . "\n" .
+					'$dbType = ?; $doctrineType = ?;' . "\n" .
+					'if (\Doctrine\DBAL\Types\Type::hasType($dbType)) {' . "\n" .
+					"\t" . '\Doctrine\DBAL\Types\Type::overrideType($dbType, $doctrineType);' . "\n" .
+					'} else {' . "\n" .
+					"\t" . '\Doctrine\DBAL\Types\Type::addType($dbType, $doctrineType);' . "\n" .
+					'}' . "\n" .
+					'$platform = $service->getDatabasePlatform();' . "\n" .
+					'$platform->registerDoctrineTypeMapping($dbType, $dbType);' . "\n" .
 					'$platform->markDoctrineTypeCommented(\Kdyby\Doctrine\DbalType::getType($dbType));' . "\n",
-					[
-						$dbType,
-						$doctrineType,
-					]
+					[$dbType, $doctrineType]
 				);
 			}
 		}
