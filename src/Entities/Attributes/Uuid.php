@@ -14,7 +14,7 @@ trait Uuid
 {
 
 	/**
-	 * @var string
+	 * @var RUuid\UuidInterface
 	 * @ORM\Id()
 	 * @ORM\Column(type="uuid_binary")
 	 * @ORM\GeneratedValue(strategy="NONE")
@@ -31,7 +31,7 @@ trait Uuid
 	 */
 	public function getId()
 	{
-		return $this->id;
+		return (string)$this->id;
 	}
 
 }
