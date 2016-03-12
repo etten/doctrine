@@ -7,6 +7,7 @@
 
 namespace Etten\Doctrine\DI;
 
+use Nette;
 use Nette\DI as NDI;
 use Ramsey\Uuid;
 
@@ -21,21 +22,22 @@ class UuidExtension extends NDI\CompilerExtension
 
 	public function beforeCompile()
 	{
+		if (!$this->types) {
+			return;
+		}
+
 		$builder = $this->getContainerBuilder();
 		$connections = $builder->findByType('Kdyby\Doctrine\Connection');
 
 		foreach ($connections as $connection) {
+			$connection->addSetup(
+				'$typeHelper = new \Etten\Doctrine\DI\TypeHelper(?)',
+				['@self']
+			);
+
 			foreach ($this->types as $dbType => $doctrineType) {
 				$connection->addSetup(
-					'$dbType = ?; $doctrineType = ?;' . "\n" .
-					'if (\Doctrine\DBAL\Types\Type::hasType($dbType)) {' . "\n" .
-					"\t" . '\Doctrine\DBAL\Types\Type::overrideType($dbType, $doctrineType);' . "\n" .
-					'} else {' . "\n" .
-					"\t" . '\Doctrine\DBAL\Types\Type::addType($dbType, $doctrineType);' . "\n" .
-					'}' . "\n" .
-					'$platform = $service->getDatabasePlatform();' . "\n" .
-					'$platform->registerDoctrineTypeMapping($dbType, $dbType);' . "\n" .
-					'$platform->markDoctrineTypeCommented(\Kdyby\Doctrine\DbalType::getType($dbType));' . "\n",
+					'$typeHelper->addType(?, ?)',
 					[$dbType, $doctrineType]
 				);
 			}
