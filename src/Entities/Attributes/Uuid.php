@@ -31,7 +31,16 @@ trait Uuid
 	 */
 	public function getId()
 	{
-		return (string)$this->id;
+		if (!$this->id) {
+			throw new \RuntimeException('ID is not set.');
+		}
+
+		return $this->id->toString();
+	}
+
+	public function __clone()
+	{
+		$this->id = NULL;
 	}
 
 }
