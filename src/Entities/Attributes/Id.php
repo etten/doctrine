@@ -15,7 +15,7 @@ trait Id
 	/**
 	 * @var int
 	 * @ORM\Id()
-	 * @ORM\Column(type="bigint")
+	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue()
 	 */
 	private $id;
