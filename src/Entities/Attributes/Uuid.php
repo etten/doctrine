@@ -29,7 +29,7 @@ trait Uuid
 	/**
 	 * @return string
 	 */
-	public function getId()
+	final public function getId()
 	{
 		if (!$this->id) {
 			throw new \RuntimeException('ID is not set.');
