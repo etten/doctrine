@@ -23,6 +23,10 @@ trait Uuid
 
 	public function __construct()
 	{
+		if (is_callable('parent::__construct')) {
+			parent::__construct();
+		}
+
 		$this->id = RUuid\Uuid::uuid4();
 	}
 
