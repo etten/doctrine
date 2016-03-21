@@ -46,7 +46,9 @@ extensions:
 
 ## DQL
 
-### MySQL MATCH AGAINST [original source](http://stackoverflow.com/a/17536071/4827632)
+### MySQL MATCH AGAINST
+
+The original source of the code is [here](http://stackoverflow.com/a/17536071/4827632).
 
 Register a DQL in config:
 
