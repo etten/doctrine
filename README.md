@@ -43,3 +43,41 @@ You can add the UUID support by registering a Nette DI extension:
 extensions:
 	etten.doctrine.uuid: Etten\Doctrine\DI\UuidExtension
 ```
+
+## DQL
+
+### MySQL MATCH AGAINST [original source](http://stackoverflow.com/a/17536071/4827632)
+
+Register a DQL in config:
+
+```yaml
+# app/config.neon
+
+kdyby.doctrine:
+	dql:
+		string:
+			MATCH: Etten\Doctrine\DQL\MatchAgainstFunction
+
+```
+
+Usage:
+
+```php
+<?php
+
+public function search(string $q)
+{
+	$q = $this->createJoinedQueryBuilder()
+		->addSelect('MATCH (a.title) AGAINST (:search) as HIDDEN score')
+		->addWhere('MATCH (a.title) AGAINST (:search) > 1')
+		->setParameter('search', $q)
+		->orderBy('score', 'desc');
+
+	return new Paginator($q);
+}
+
+```
+
+## Others (not included in this package)
+
+For more functions plese visit [beberlei/DoctrineExtensions](https://github.com/beberlei/DoctrineExtensions).
