@@ -12,7 +12,7 @@ use Doctrine\ORM;
 /**
  * @ORM\Mapping\Entity()
  */
-abstract class AbstractEntity implements IdProvider, Cacheable
+abstract class Entity implements IdProvider, Cacheable
 {
 
 	public function getCacheKey()

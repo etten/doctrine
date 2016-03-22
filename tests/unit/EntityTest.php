@@ -7,9 +7,9 @@
 
 namespace Tests\Unit;
 
-use Etten\Doctrine\Entities\AbstractEntity;
+use Etten\Doctrine\Entities\Entity;
 
-class AbstractEntityTest extends \PHPUnit_Framework_TestCase
+class EntityTest extends \PHPUnit_Framework_TestCase
 {
 
 	public function testGetCacheKey()
@@ -29,7 +29,7 @@ class AbstractEntityTest extends \PHPUnit_Framework_TestCase
 
 }
 
-class TestEntity extends AbstractEntity
+class TestEntity extends Entity
 {
 
 	public function getId()
