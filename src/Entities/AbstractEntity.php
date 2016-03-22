@@ -17,7 +17,7 @@ abstract class AbstractEntity implements IdProvider, Cacheable
 
 	public function getCacheKey()
 	{
-		return get_called_class() . $this->getId();
+		return get_called_class() . ':' . $this->getId();
 	}
 
 	public function getCacheTags()
