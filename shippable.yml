@@ -16,6 +16,17 @@ install:
   # Composer
   - composer install --no-interaction --prefer-dist
 
+before_script:
+  # Prepare Shippable directories
+  - mkdir -p shippable/codecoverage
+  - mkdir -p shippable/testresults
+
+  # Set file/directory permissions
+  - chmod -R 777 tests/temp
+
 script:
   # Run PHP CodeSniffer
-  - vendor/bin/phpcs --standard=vendor/etten/codestyle/Etten/ruleset.xml -nsp src
+  - vendor/bin/phpcs --standard=vendor/etten/codestyle/Etten/ruleset.xml -nsp src tests
+
+  # Run PHPUnit
+  - vendor/bin/phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests
