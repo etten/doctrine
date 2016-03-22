@@ -7,11 +7,6 @@
 
 namespace Etten\Doctrine\Entities;
 
-use Doctrine\ORM;
-
-/**
- * @ORM\Mapping\Entity()
- */
 abstract class Entity implements IdProvider, Cacheable
 {
 
