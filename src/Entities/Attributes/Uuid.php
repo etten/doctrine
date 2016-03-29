@@ -27,7 +27,7 @@ trait Uuid
 			parent::__construct();
 		}
 
-		$this->id = RUuid\Uuid::uuid4();
+		$this->generateId();
 	}
 
 	/**
@@ -44,7 +44,12 @@ trait Uuid
 
 	public function __clone()
 	{
-		$this->id = NULL;
+		$this->generateId();
+	}
+
+	private function generateId()
+	{
+		$this->id = RUuid\Uuid::uuid4();
 	}
 
 }
