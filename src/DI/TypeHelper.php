@@ -26,7 +26,7 @@ class TypeHelper
 	 * @param string $doctrineType
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function addType($dbType, $doctrineType)
+	public function addType(string $dbType, string $doctrineType)
 	{
 		if (Type::hasType($dbType)) {
 			Type::overrideType($dbType, $doctrineType);

@@ -7,34 +7,22 @@
 
 namespace Tests\Unit;
 
-use Etten\Doctrine\Entities\Entity;
-
 class EntityTest extends \PHPUnit_Framework_TestCase
 {
 
 	public function testGetCacheKey()
 	{
-		$entity = new TestEntity();
-		$this->assertSame('Tests\Unit\TestEntity:5', $entity->getCacheKey());
+		$entity = new EntityTestClass();
+		$this->assertSame('Tests\Unit\EntityTestClass:5', $entity->getCacheKey());
 	}
 
 	public function testGetCacheTags()
 	{
-		$entity = new TestEntity();
+		$entity = new EntityTestClass();
 
 		$this->assertSame([
-			'testentity',
+			'entitytestclass',
 		], $entity->getCacheTags());
-	}
-
-}
-
-class TestEntity extends Entity
-{
-
-	public function getId()
-	{
-		return 5;
 	}
 
 }
