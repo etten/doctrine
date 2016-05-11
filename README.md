@@ -23,6 +23,17 @@ You can sort items in PHP via `Etten\Doctrine\Helpers\FieldOrderHelper`. See [im
 *Note: This kind of operations in PHP is inefficient. Use it only for few filtered items.*
 *If you have hundreds of items, rather rewrite the code and sort items directly in DBMS, not in PHP.*
 
+### Randomizer
+
+Randomizer helps you find random-look results without `ORDER BY RAND()` clause.
+
+It counts all items in given `Query` object and selects random offset.
+
+Then applies limit and returns items as a shuffled array result.
+
+*For better results, offset + limit is performed in multiple iterations (by default for each 25 items).*
+*It increases a cost of the operation, but results are not in order as-inserted into database.*
+
 ## Extensions
 
 ### UUID
