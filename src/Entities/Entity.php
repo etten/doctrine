@@ -7,8 +7,12 @@
 
 namespace Etten\Doctrine\Entities;
 
+use Etten\Doctrine\Entities\Attributes;
+
 abstract class Entity implements IdProvider, Cacheable
 {
+
+	use Attributes\Cache;
 
 	public function toArray():array
 	{
@@ -34,19 +38,6 @@ abstract class Entity implements IdProvider, Cacheable
 		}
 
 		return $arr;
-	}
-
-	public function getCacheKey()
-	{
-		return get_called_class() . ':' . $this->getId();
-	}
-
-	public function getCacheTags()
-	{
-		$nameParts = explode('\\', get_called_class());
-		$name = strtolower(end($nameParts));
-
-		return [$name];
 	}
 
 	/**
