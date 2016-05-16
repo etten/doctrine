@@ -39,6 +39,10 @@ trait Uuid
 			throw new \RuntimeException('ID is not set.');
 		}
 
+		if (!$this->id instanceof RUuid\UuidInterface) {
+			throw new \RuntimeException(sprintf('ID is not instance of %s.', RUuid\UuidInterface::class));
+		}
+
 		return $this->id->toString();
 	}
 
