@@ -10,14 +10,8 @@ namespace Etten\Doctrine\Entities;
 interface Cacheable
 {
 
-	/**
-	 * @return string
-	 */
-	public function getCacheKey();
+	public function getCacheKey():string;
 
-	/**
-	 * @return string[]
-	 */
-	public function getCacheTags();
+	public function getCacheTags():array;
 
 }

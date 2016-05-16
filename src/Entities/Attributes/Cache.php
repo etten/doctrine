@@ -10,12 +10,12 @@ namespace Etten\Doctrine\Entities\Attributes;
 trait Cache
 {
 
-	public function getCacheKey()
+	public function getCacheKey():string
 	{
 		return get_called_class() . ':' . $this->getId();
 	}
 
-	public function getCacheTags()
+	public function getCacheTags():array
 	{
 		$nameParts = explode('\\', get_called_class());
 		$name = strtolower(end($nameParts));
