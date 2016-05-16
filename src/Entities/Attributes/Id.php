@@ -21,14 +21,10 @@ trait Id
 	private $id;
 
 	/**
-	 * @return int
+	 * @return int|null
 	 */
 	final public function getId()
 	{
-		if (!$this->id) {
-			throw new \RuntimeException('ID is not set.');
-		}
-
 		return $this->id;
 	}
 
