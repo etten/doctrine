@@ -15,30 +15,53 @@ class EntityTestClass extends Entity
 	/**
 	 * @var string
 	 */
+	public static $staticBar = 'Bar';
+
+	/**
+	 * @var string
+	 */
+	public $publicBar = 'Bar';
+
+	/**
+	 * @var string
+	 */
+	public $protectedBar = 'Bar';
+
+	/**
+	 * @var string
+	 */
+	public $privateBar = 'Bar';
+
+	/**
+	 * @var
+	 */
+	private $id = 5;
+
+	/**
+	 * @var string
+	 */
 	private $name = 'Foo';
 
 	public static function getPublicStaticBar():string
 	{
-		return 'Bar';
+		return self::$staticBar;
+	}
+
+	public static function setPublicStaticBar(string $bar)
+	{
+		self::$staticBar = $bar;
 	}
 
 	public function getId():int
 	{
-		return 5;
+		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName():string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @param string $name
-	 * @return EntityTestClass
-	 */
 	public function setName(string $name):EntityTestClass
 	{
 		$this->name = $name;
@@ -47,17 +70,35 @@ class EntityTestClass extends Entity
 
 	public function getPublicBar():string
 	{
-		return 'Bar';
+		return $this->publicBar;
+	}
+
+	public function setPublicBar(string $publicBar):EntityTestClass
+	{
+		$this->publicBar = $publicBar;
+		return $this;
 	}
 
 	protected function getProtectedBar():string
 	{
-		return 'Bar';
+		return $this->protectedBar;
+	}
+
+	protected function setProtectedBar(string $protectedBar)
+	{
+		$this->protectedBar = $protectedBar;
+		return $this;
 	}
 
 	private function getPrivateBar():string
 	{
-		return 'Bar';
+		return $this->privateBar;
+	}
+
+	private function setPrivateBar(string $privateBar)
+	{
+		$this->privateBar = $privateBar;
+		return $this;
 	}
 
 }

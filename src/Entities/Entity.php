@@ -24,6 +24,18 @@ abstract class Entity implements IdProvider, Cacheable
 		return $arr;
 	}
 
+	public function fromArray(array $arr)
+	{
+		foreach ($arr as $key => $value) {
+			$name = 'set' . ucfirst($key);
+			if (method_exists($this, $name)) {
+				$this->$name($value);
+			}
+		}
+
+		return $arr;
+	}
+
 	public function getCacheKey()
 	{
 		return get_called_class() . ':' . $this->getId();

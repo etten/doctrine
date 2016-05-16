@@ -38,4 +38,28 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 		], $entity->toArray());
 	}
 
+	public function testFromArray()
+	{
+		$from = [
+			'id' => 9,
+			'name' => 'Fooo',
+			'publicBar' => 'Barr',
+			'cacheKey' => '###',
+			'cacheTags' => '###',
+		];
+
+		$to = [
+			'id' => 5, // read-only
+			'name' => 'Fooo',
+			'publicBar' => 'Barr',
+			'cacheKey' => 'Tests\Unit\EntityTestClass:5', // read-only
+			'cacheTags' => ['entitytestclass'], // read-only
+		];
+
+		$entity = new EntityTestClass();
+		$entity->fromArray($from);
+
+		$this->assertSame($to, $entity->toArray());
+	}
+
 }
