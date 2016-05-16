@@ -10,6 +10,20 @@ namespace Etten\Doctrine\Entities;
 abstract class Entity implements IdProvider, Cacheable
 {
 
+	public function toArray():array
+	{
+		$arr = [];
+		foreach ($this->getArrayMethods() as $method) {
+			$name = $method->getName();
+			if (substr($name, 0, 3) === 'get') {
+				$key = lcfirst(substr($name, 3));
+				$arr[$key] = $this->$name();
+			}
+		}
+
+		return $arr;
+	}
+
 	public function getCacheKey()
 	{
 		return get_called_class() . ':' . $this->getId();
@@ -21,6 +35,17 @@ abstract class Entity implements IdProvider, Cacheable
 		$name = strtolower(end($nameParts));
 
 		return [$name];
+	}
+
+	/**
+	 * @return \ReflectionMethod[]
+	 */
+	private function getArrayMethods():array
+	{
+		$reflection = new \ReflectionClass($this);
+		return array_filter($reflection->getMethods(), function (\ReflectionMethod $method) {
+			return $method->isPublic() && !$method->isStatic();
+		});
 	}
 
 }

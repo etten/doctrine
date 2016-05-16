@@ -25,4 +25,17 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 		], $entity->getCacheTags());
 	}
 
+	public function testToArray()
+	{
+		$entity = new EntityTestClass();
+
+		$this->assertSame([
+			'id' => 5,
+			'name' => 'Foo',
+			'publicBar' => 'Bar',
+			'cacheKey' => 'Tests\Unit\EntityTestClass:5',
+			'cacheTags' => ['entitytestclass'],
+		], $entity->toArray());
+	}
+
 }
