@@ -13,12 +13,10 @@ trait ArrayAccessors
 	public function toArray():array
 	{
 		$arr = [];
-		foreach ($this->getArrayMethods() as $method) {
+		foreach ($this->getGetters() as $method) {
 			$name = $method->getName();
-			if (substr($name, 0, 3) === 'get') {
-				$key = lcfirst(substr($name, 3));
-				$arr[$key] = $this->$name();
-			}
+			$key = lcfirst(substr($name, 3));
+			$arr[$key] = $this->$name();
 		}
 
 		return $arr;
@@ -39,11 +37,29 @@ trait ArrayAccessors
 	/**
 	 * @return \ReflectionMethod[]
 	 */
-	private function getArrayMethods():array
+	private function getGetters():array
+	{
+		return $this->getArrayMethods(function (\ReflectionMethod $method) {
+			$name = $method->getName();
+			return substr($name, 0, 3) === 'get';
+		});
+	}
+
+	/**
+	 * @param callable $filter
+	 * @return \ReflectionMethod[]
+	 */
+	private function getArrayMethods(callable $filter = NULL):array
 	{
 		$reflection = new \ReflectionClass($this);
-		return array_filter($reflection->getMethods(), function (\ReflectionMethod $method) {
-			return $method->isPublic() && !$method->isStatic();
+		return array_filter($reflection->getMethods(), function (\ReflectionMethod $method) use ($filter) {
+			$isOk = $method->isPublic() && !$method->isStatic();
+
+			if ($filter) {
+				$isOk &= $filter($method);
+			}
+
+			return $isOk;
 		});
 	}
 
