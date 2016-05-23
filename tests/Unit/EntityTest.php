@@ -38,6 +38,14 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 		], $entity->toArray());
 	}
 
+	public function testToArrayInvalid()
+	{
+		$entity = new InvalidEntityTestClass();
+
+		$this->expectException(\Throwable::class);
+		$entity->toArray();
+	}
+
 	public function testFromArray()
 	{
 		$from = [
