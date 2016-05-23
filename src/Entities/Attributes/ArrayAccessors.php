@@ -13,10 +13,22 @@ trait ArrayAccessors
 	public function toArray():array
 	{
 		$arr = [];
-		foreach ($this->getGetters() as $method) {
-			$name = $method->getName();
-			$key = lcfirst(substr($name, 3));
-			$arr[$key] = $this->$name();
+		foreach ($this->mapArrayGetters() as $key => $method) {
+			$arr[$key] = $this->$method();
+		}
+
+		return $arr;
+	}
+
+	public function toArraySilent():array
+	{
+		$arr = [];
+		foreach ($this->mapArrayGetters() as $key => $method) {
+			try {
+				$arr[$key] = $this->$method();
+			} catch (\Throwable $e) {
+				continue;
+			}
 		}
 
 		return $arr;
@@ -25,42 +37,56 @@ trait ArrayAccessors
 	public function fromArray(array $arr)
 	{
 		foreach ($arr as $key => $value) {
-			$name = 'set' . ucfirst($key);
-			if (method_exists($this, $name)) {
-				$this->$name($value);
+			$this->callSetterFromArray($key, $value);
+		}
+
+		return $this;
+	}
+
+	public function fromArraySilent(array $arr)
+	{
+		foreach ($arr as $key => $value) {
+			try {
+				$this->callSetterFromArray($key, $value);
+			} catch (\Throwable $e) {
+				continue;
 			}
 		}
 
-		return $arr;
+		return $this;
 	}
 
 	/**
 	 * @return \ReflectionMethod[]
 	 */
-	private function getGetters():array
-	{
-		return $this->getArrayMethods(function (\ReflectionMethod $method) {
-			$name = $method->getName();
-			return substr($name, 0, 3) === 'get';
-		});
-	}
-
-	/**
-	 * @param callable $filter
-	 * @return \ReflectionMethod[]
-	 */
-	private function getArrayMethods(callable $filter = NULL):array
+	private function mapArrayMethods():array
 	{
 		$reflection = new \ReflectionClass($this);
-		return array_filter($reflection->getMethods(), function (\ReflectionMethod $method) use ($filter) {
-			$isOk = $method->isPublic() && !$method->isStatic();
-
-			if ($filter) {
-				$isOk &= $filter($method);
-			}
-
-			return $isOk;
+		return array_filter($reflection->getMethods(), function (\ReflectionMethod $method) {
+			return $method->isPublic() && !$method->isStatic();
 		});
+	}
+
+	private function mapArrayGetters():array
+	{
+		$map = [];
+		foreach ($this->mapArrayMethods() as $method) {
+			$name = $method->getName();
+			if (substr($name, 0, 3) === 'get') {
+				$key = lcfirst(substr($name, 3));
+				$map[$key] = $name;
+			}
+		}
+
+		return $map;
+	}
+
+	private function callSetterFromArray(string $key, $value)
+	{
+		$name = 'set' . ucfirst($key);
+		if (method_exists($this, $name)) {
+			$this->$name($value);
+		}
 	}
 
 }

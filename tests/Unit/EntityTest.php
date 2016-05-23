@@ -46,6 +46,18 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 		$entity->toArray();
 	}
 
+	public function testToArraySilentInvalid()
+	{
+		$entity = new InvalidEntityTestClass();
+
+		$this->assertSame([
+			'id' => 5,
+			'publicBar' => 'Bar',
+			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5',
+			'cacheTags' => ['invalidentitytestclass'],
+		], $entity->toArraySilent());
+	}
+
 	public function testFromArray()
 	{
 		$from = [
@@ -68,6 +80,45 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 		$entity->fromArray($from);
 
 		$this->assertSame($to, $entity->toArray());
+	}
+
+	public function testFromArrayInvalid()
+	{
+		$from = [
+			'id' => 9,
+			'name' => NULL,
+			'publicBar' => 'Barr',
+			'cacheKey' => '###',
+			'cacheTags' => '###',
+		];
+
+		$entity = new InvalidEntityTestClass();
+
+		$this->expectException(\Throwable::class);
+		$entity->fromArray($from);
+	}
+
+	public function testFromArraySilentInvalid()
+	{
+		$from = [
+			'id' => 9,
+			'name' => NULL,
+			'publicBar' => 'Barr',
+			'cacheKey' => '###',
+			'cacheTags' => '###',
+		];
+
+		$to = [
+			'id' => 5, // read-only
+			'publicBar' => 'Barr',
+			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5', // read-only
+			'cacheTags' => ['invalidentitytestclass'], // read-only
+		];
+
+		$entity = new InvalidEntityTestClass();
+		$entity->fromArraySilent($from);
+
+		$this->assertSame($to, $entity->toArraySilent());
 	}
 
 }
