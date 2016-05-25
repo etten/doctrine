@@ -21,6 +21,6 @@ trait UuidBinary
 	 * @ORM\Column(type="uuid_binary")
 	 * @ORM\GeneratedValue(strategy="NONE")
 	 */
-	private $id;
+	protected $id;
 
 }

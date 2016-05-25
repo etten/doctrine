@@ -59,7 +59,7 @@ trait ArrayAccessors
 	/**
 	 * @return \ReflectionMethod[]
 	 */
-	private function mapArrayMethods():array
+	protected function mapArrayMethods():array
 	{
 		$reflection = new \ReflectionClass($this);
 		return array_filter($reflection->getMethods(), function (\ReflectionMethod $method) {
@@ -67,7 +67,7 @@ trait ArrayAccessors
 		});
 	}
 
-	private function mapArrayGetters():array
+	protected function mapArrayGetters():array
 	{
 		$map = [];
 		foreach ($this->mapArrayMethods() as $method) {
@@ -81,7 +81,7 @@ trait ArrayAccessors
 		return $map;
 	}
 
-	private function callSetterFromArray(string $key, $value)
+	protected function callSetterFromArray(string $key, $value)
 	{
 		$name = 'set' . ucfirst($key);
 		if (method_exists($this, $name)) {

@@ -18,7 +18,7 @@ trait InstanceId
 	 * @ORM\Id()
 	 * @ORM\Column(type="integer")
 	 */
-	private $id;
+	protected $id;
 
 	public function __construct()
 	{

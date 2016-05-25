@@ -19,7 +19,7 @@ trait Uuid
 	 * @ORM\Column(type="uuid")
 	 * @ORM\GeneratedValue(strategy="NONE")
 	 */
-	private $id;
+	protected $id;
 
 	public function __construct()
 	{
