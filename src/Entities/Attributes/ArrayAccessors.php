@@ -10,6 +10,15 @@ namespace Etten\Doctrine\Entities\Attributes;
 trait ArrayAccessors
 {
 
+	/**
+	 * @return \ArrayIterator
+	 * @internal
+	 */
+	public function getIterator()
+	{
+		return new \ArrayIterator($this->toArray());
+	}
+
 	public function offsetExists($offset)
 	{
 		$name = 'get' . ucfirst($offset);
