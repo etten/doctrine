@@ -61,11 +61,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 	public function testFromArray()
 	{
 		$from = [
-			'id' => 9,
 			'name' => 'Fooo',
 			'publicBar' => 'Barr',
-			'cacheKey' => '###',
-			'cacheTags' => '###',
 		];
 
 		$to = [
@@ -88,8 +85,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'id' => 9,
 			'name' => NULL,
 			'publicBar' => 'Barr',
-			'cacheKey' => '###',
-			'cacheTags' => '###',
 		];
 
 		$entity = new InvalidEntityTestClass();
@@ -119,6 +114,15 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 		$entity->fromArraySilent($from);
 
 		$this->assertSame($to, $entity->toArraySilent());
+	}
+
+	public function testArrayAccess()
+	{
+		$entity = new EntityTestClass();
+
+		$this->assertSame('Foo', $entity['name']);
+		$entity['name'] = 'Bar';
+		$this->assertSame('Bar', $entity['name']);
 	}
 
 }

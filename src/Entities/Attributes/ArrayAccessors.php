@@ -10,6 +10,29 @@ namespace Etten\Doctrine\Entities\Attributes;
 trait ArrayAccessors
 {
 
+	public function offsetExists($offset)
+	{
+		$name = 'get' . ucfirst($offset);
+		return method_exists($this, $name);
+	}
+
+	public function offsetGet($offset)
+	{
+		$name = 'get' . ucfirst($offset);
+		return $this->$name();
+	}
+
+	public function offsetSet($offset, $value)
+	{
+		$name = 'set' . ucfirst($offset);
+		$this->$name($value);
+	}
+
+	public function offsetUnset($offset)
+	{
+		throw new \LogicException(sprintf('%s is not supported.', __METHOD__));
+	}
+
 	public function toArray():array
 	{
 		$arr = [];
@@ -37,7 +60,7 @@ trait ArrayAccessors
 	public function fromArray(array $arr)
 	{
 		foreach ($arr as $key => $value) {
-			$this->callSetterFromArray($key, $value);
+			$this->offsetSet($key, $value);
 		}
 
 		return $this;
@@ -47,7 +70,7 @@ trait ArrayAccessors
 	{
 		foreach ($arr as $key => $value) {
 			try {
-				$this->callSetterFromArray($key, $value);
+				$this->offsetSet($key, $value);
 			} catch (\Throwable $e) {
 				continue;
 			}
@@ -79,14 +102,6 @@ trait ArrayAccessors
 		}
 
 		return $map;
-	}
-
-	protected function callSetterFromArray(string $key, $value)
-	{
-		$name = 'set' . ucfirst($key);
-		if (method_exists($this, $name)) {
-			$this->$name($value);
-		}
 	}
 
 }
