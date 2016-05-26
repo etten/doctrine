@@ -86,7 +86,8 @@ trait ArrayAccessors
 	{
 		$reflection = new \ReflectionClass($this);
 		return array_filter($reflection->getMethods(), function (\ReflectionMethod $method) {
-			return $method->isPublic() && !$method->isStatic();
+			$isInternal = strpos($method->getDocComment(), '@internal') !== FALSE;
+			return $method->isPublic() && !$method->isStatic() && !$isInternal;
 		});
 	}
 

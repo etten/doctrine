@@ -52,6 +52,15 @@ class EntityTestClass extends Entity
 		self::$staticBar = $bar;
 	}
 
+	/**
+	 * @return string
+	 * @internal
+	 */
+	public function getSomethingInternal()
+	{
+		return '#';
+	}
+
 	public function getId():int
 	{
 		return $this->id;
