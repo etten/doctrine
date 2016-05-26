@@ -125,6 +125,15 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame('Bar', $entity['name']);
 	}
 
+	public function testPropertyAccess()
+	{
+		$entity = new EntityTestClass();
+
+		$this->assertSame('Foo', $entity->name);
+		$entity->name = 'Bar';
+		$this->assertSame('Bar', $entity->name);
+	}
+
 	public function testTraversable()
 	{
 		$entity = new EntityTestClass();
