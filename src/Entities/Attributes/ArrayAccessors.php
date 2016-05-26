@@ -21,20 +21,20 @@ trait ArrayAccessors
 
 	public function offsetExists($offset)
 	{
-		$name = 'get' . ucfirst($offset);
-		return method_exists($this, $name);
+		$method = 'get' . ucfirst($offset);
+		return method_exists($this, $method);
 	}
 
 	public function offsetGet($offset)
 	{
-		$name = 'get' . ucfirst($offset);
-		return $this->$name();
+		$method = 'get' . ucfirst($offset);
+		return $this->$method();
 	}
 
 	public function offsetSet($offset, $value)
 	{
-		$name = 'set' . ucfirst($offset);
-		$this->$name($value);
+		$method = 'set' . ucfirst($offset);
+		$this->$method($value);
 	}
 
 	public function offsetUnset($offset)
