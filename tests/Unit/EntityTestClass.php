@@ -61,6 +61,15 @@ class EntityTestClass extends Entity
 		return '#';
 	}
 
+	/**
+	 * This is overridden internal method.
+	 * @return \ArrayIterator
+	 */
+	public function getIterator()
+	{
+		return parent::getIterator();
+	}
+
 	public function getId():int
 	{
 		return $this->id;

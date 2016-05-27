@@ -89,29 +89,46 @@ trait ArrayAccessors
 	}
 
 	/**
-	 * @return \ReflectionMethod[]
+	 * @return array [property => method]
 	 */
-	protected function mapArrayMethods():array
-	{
-		$reflection = new \ReflectionClass($this);
-		return array_filter($reflection->getMethods(), function (\ReflectionMethod $method) {
-			$isInternal = strpos($method->getDocComment(), '@internal') !== FALSE;
-			return $method->isPublic() && !$method->isStatic() && !$isInternal;
-		});
-	}
-
-	protected function mapArrayGetters():array
+	private function mapArrayGetters():array
 	{
 		$map = [];
-		foreach ($this->mapArrayMethods() as $method) {
-			$name = $method->getName();
-			if (substr($name, 0, 3) === 'get') {
-				$key = lcfirst(substr($name, 3));
-				$map[$key] = $name;
+
+		$methods = $this->mapArrayMethods(new \ReflectionClass($this));
+		foreach ($methods as $method) {
+			if (substr($method, 0, 3) === 'get') {
+				$key = lcfirst(substr($method, 3));
+				$map[$key] = $method;
 			}
 		}
 
 		return $map;
+	}
+
+	/**
+	 * @param \ReflectionClass $class
+	 * @param string[] $methods
+	 * @return string[]
+	 */
+	private function mapArrayMethods(\ReflectionClass $class, array $methods = []):array
+	{
+		foreach ($class->getMethods() as $method) {
+			$name = $method->getName();
+			$isInternal = strpos($method->getDocComment(), '@internal') !== FALSE;
+
+			if (!$method->isPublic() || $method->isStatic() || $isInternal) {
+				unset($methods[$name]); // remove if were set previously
+			} else {
+				$methods[$name] = $name; // is ok
+			}
+		}
+
+		if (($parent = $class->getParentClass())) {
+			$methods = $this->mapArrayMethods($parent, $methods);
+		}
+
+		return $methods;
 	}
 
 }
