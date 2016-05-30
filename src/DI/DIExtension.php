@@ -19,22 +19,38 @@ class DIExtension extends NDI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$entityManagers = $builder->findByType(ORM\EntityManager::class);
 
-		foreach (array_values($entityManagers) as $i => $em) {
-			$builder->addDefinition($this->prefix('persister'))
+		$i = 0;
+		foreach ($entityManagers as $name => $em) {
+			$suffix = $i;
+			$default = $i === 0;
+			$i++;
+
+			// Kdyby\Doctrine support
+			if (preg_match('~kdyby\.doctrine\.([a-zA-Z0-9_]+)\.entityManager~', $name, $m)) {
+				$suffix = $m[1];
+				$default = $suffix === 'default';
+			}
+
+			$builder->addDefinition($this->fullName('persister', $suffix))
 				->setClass(EDoctrine\Persister::class)
 				->setArguments([$em])
-				->setAutowired($i === 0);
+				->setAutowired($default);
 
-			$builder->addDefinition($this->prefix('repositoryLocator'))
+			$builder->addDefinition($this->fullName('repositoryLocator', $suffix))
 				->setClass(EDoctrine\RepositoryLocator::class)
 				->setArguments([$em])
-				->setAutowired($i === 0);
+				->setAutowired($default);
 
-			$builder->addDefinition($this->prefix('transaction'))
+			$builder->addDefinition($this->fullName('transaction', $suffix))
 				->setClass(EDoctrine\Transaction::class)
 				->setArguments([$em])
-				->setAutowired($i === 0);
+				->setAutowired($default);
 		}
+	}
+
+	private function fullName(string $name, string $suffix)
+	{
+		return $this->prefix($name) . '.' . $suffix;
 	}
 
 }
