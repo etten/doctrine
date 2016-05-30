@@ -7,16 +7,15 @@
 
 namespace Etten\Doctrine\DI;
 
-use Doctrine\DBAL\Types\Type;
-use Kdyby\Doctrine;
+use Doctrine\DBAL;
 
 class TypeHelper
 {
 
-	/** @var Doctrine\Connection */
+	/** @var DBAL\Connection */
 	private $connection;
 
-	public function __construct(Doctrine\Connection $connection)
+	public function __construct(DBAL\Connection $connection)
 	{
 		$this->connection = $connection;
 	}
@@ -28,15 +27,15 @@ class TypeHelper
 	 */
 	public function addType(string $dbType, string $doctrineType)
 	{
-		if (Type::hasType($dbType)) {
-			Type::overrideType($dbType, $doctrineType);
+		if (DBAL\Types\Type::hasType($dbType)) {
+			DBAL\Types\Type::overrideType($dbType, $doctrineType);
 		} else {
-			Type::addType($dbType, $doctrineType);
+			DBAL\Types\Type::addType($dbType, $doctrineType);
 		}
 
 		$platform = $this->connection->getDatabasePlatform();
 		$platform->registerDoctrineTypeMapping($dbType, $dbType);
-		$platform->markDoctrineTypeCommented(Doctrine\DbalType::getType($dbType));
+		$platform->markDoctrineTypeCommented(DBAL\Types\Type::getType($dbType));
 	}
 
 }

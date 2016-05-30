@@ -7,7 +7,7 @@
 
 namespace Etten\Doctrine\DI;
 
-use Nette;
+use Doctrine\DBAL;
 use Nette\DI as NDI;
 use Ramsey\Uuid;
 
@@ -27,7 +27,7 @@ class UuidExtension extends NDI\CompilerExtension
 		}
 
 		$builder = $this->getContainerBuilder();
-		$connections = $builder->findByType('Kdyby\Doctrine\Connection');
+		$connections = $builder->findByType(DBAL\Connection::class);
 
 		foreach ($connections as $connection) {
 			$connection->addSetup(
