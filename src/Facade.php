@@ -5,7 +5,7 @@
  * Copyright © 2016 Jaroslav Hranička <hranicka@outlook.com>
  */
 
-namespace Etten\Doctrine\Facade;
+namespace Etten\Doctrine;
 
 use Doctrine\ORM;
 
