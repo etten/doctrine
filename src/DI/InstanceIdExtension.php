@@ -7,9 +7,8 @@
 
 namespace Etten\Doctrine\DI;
 
-use Nette;
 use Nette\DI as NDI;
-use Nette\DI\Config;
+use Nette\PhpGenerator;
 
 class InstanceIdExtension extends NDI\CompilerExtension
 {
@@ -19,9 +18,9 @@ class InstanceIdExtension extends NDI\CompilerExtension
 		'path' => 'safe://%storageDir%/instance-generator.id',
 	];
 
-	public function afterCompile(Nette\PhpGenerator\ClassType $class)
+	public function afterCompile(PhpGenerator\ClassType $class)
 	{
-		$config = Config\Helpers::merge(
+		$config = NDI\Config\Helpers::merge(
 			$this->getContainerBuilder()->parameters,
 			$this->getContainerBuilder()->expand($this->config)
 		);
