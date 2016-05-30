@@ -25,6 +25,11 @@ class DIExtension extends NDI\CompilerExtension
 				->setArguments([$em])
 				->setAutowired($i === 0);
 
+			$builder->addDefinition($this->prefix('repositoryLocator'))
+				->setClass(EDoctrine\RepositoryLocator::class)
+				->setArguments([$em])
+				->setAutowired($i === 0);
+
 			$builder->addDefinition($this->prefix('transaction'))
 				->setClass(EDoctrine\Transaction::class)
 				->setArguments([$em])

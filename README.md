@@ -25,6 +25,7 @@ But you can use:
 
 * **Etten\Doctrine\Facade** (abstract class)
 * **Etten\Doctrine\Persister**
+* **Etten\Doctrine\RepositoryLocator**
 * **Etten\Doctrine\Transaction**
 
 Services are registered automatically with `Etten\Doctrine\DI\DIExtension`.
