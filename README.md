@@ -6,7 +6,28 @@ Provides some helpers and extension for Doctrine 2 ORM into Nette Framework.
 
 First install package via Composer:
 
-`$ composer require etten/doctrine`
+```
+$ composer require etten/doctrine
+```
+
+Then register basic DI Extension in `config.neon`:
+
+```
+extensions:
+	etten.doctrine: Etten\Doctrine\DI\DIExtension
+```
+
+## EntityManager Facades
+
+Doctrine's default EntityManager is a GOD class. Monster. It does too much, violates SRP, mocks are difficilt, ...
+
+But you can use:
+
+* **Etten\Doctrine\Facade** (abstract class)
+* **Etten\Doctrine\Persister**
+* **Etten\Doctrine\Transaction**
+
+Services are registered automatically with `Etten\Doctrine\DI\DIExtension`.
 
 ## Helpers
 
