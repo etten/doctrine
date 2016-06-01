@@ -16,6 +16,7 @@ class InstanceIdExtension extends NDI\CompilerExtension
 	/** @var array */
 	protected $config = [
 		'path' => 'safe://%storageDir%/instance-generator.id',
+		'storage' => 'Etten\Doctrine\Helpers\FileStorage',
 	];
 
 	public function afterCompile(PhpGenerator\ClassType $class)
@@ -25,9 +26,11 @@ class InstanceIdExtension extends NDI\CompilerExtension
 			$this->getContainerBuilder()->expand($this->config)
 		);
 
+		$storageClass = '\\' . ltrim($config['storage'], '\\');
+
 		$initialize = $class->getMethod('initialize');
-		$initialize->addBody('\Etten\Doctrine\Helpers\InstanceIdGenerator::$path = ?;', [
-			$config['path'],
+		$initialize->addBody('\Etten\Doctrine\Helpers\InstanceIdGenerator::$storage = ?;', [
+			new PhpGenerator\PhpLiteral(PhpGenerator\Helpers::formatArgs("new $storageClass(?)", [$config['path']])),
 		]);
 	}
 

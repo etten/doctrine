@@ -10,30 +10,20 @@ namespace Etten\Doctrine\Helpers;
 class InstanceIdGenerator
 {
 
-	/** @var string */
-	public static $path = '';
+	/** @var Storage */
+	public static $storage;
 
 	public static function generate():int
 	{
-		if (!self::$path) {
-			throw new \RuntimeException('self::$path is not set.');
+		$storage = self::$storage;
+		if (!$storage) {
+			throw new \RuntimeException('self::$storage is not set.');
 		}
 
-		$id = self::load();
-		self::save($id);
+		$id = (int)trim($storage->read());
+		$storage->write(++$id);
 
 		return $id;
-	}
-
-	private static function load():int
-	{
-		$id = (int)@file_get_contents(self::$path); // @ - file may not exists
-		return ++$id;
-	}
-
-	private static function save(int $id)
-	{
-		file_put_contents(self::$path, $id);
 	}
 
 }
