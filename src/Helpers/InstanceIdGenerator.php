@@ -19,9 +19,21 @@ class InstanceIdGenerator
 			throw new \RuntimeException('self::$path is not set.');
 		}
 
-		$id = (int)file_get_contents(self::$path) + 1;
-		file_put_contents(self::$path, $id);
+		$id = self::load();
+		self::save($id);
+
 		return $id;
+	}
+
+	private static function load():int
+	{
+		$id = (int)@file_get_contents(self::$path); // @ - file may not exists
+		return ++$id;
+	}
+
+	private static function save(int $id)
+	{
+		file_put_contents(self::$path, $id);
 	}
 
 }
