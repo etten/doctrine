@@ -26,7 +26,7 @@ class InstanceIdExtension extends NDI\CompilerExtension
 		);
 
 		$initialize = $class->getMethod('initialize');
-		$initialize->addBody('\Etten\Doctrine\Helpers\InstanceIdGenerator::$path = ?', [
+		$initialize->addBody('\Etten\Doctrine\Helpers\InstanceIdGenerator::$path = ?;', [
 			$config['path'],
 		]);
 	}
