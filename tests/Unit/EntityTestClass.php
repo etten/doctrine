@@ -80,6 +80,16 @@ class EntityTestClass extends Entity
 		return $this->name;
 	}
 
+	public function hasName():bool
+	{
+		return !!$this->name;
+	}
+
+	public function isTest():bool
+	{
+		return TRUE;
+	}
+
 	public function setName(string $name):EntityTestClass
 	{
 		$this->name = $name;

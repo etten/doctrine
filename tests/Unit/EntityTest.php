@@ -35,6 +35,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5',
 			'cacheTags' => ['entitytestclass'],
+			'test' => TRUE,
 		], $entity->toArray());
 	}
 
@@ -55,6 +56,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5',
 			'cacheTags' => ['invalidentitytestclass'],
+			'test' => TRUE,
 		], $entity->toArraySilent());
 	}
 
@@ -71,6 +73,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'publicBar' => 'Barr',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5', // read-only
 			'cacheTags' => ['entitytestclass'], // read-only
+			'test' => TRUE, // read-only
 		];
 
 		$entity = new EntityTestClass();
@@ -108,6 +111,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'publicBar' => 'Barr',
 			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5', // read-only
 			'cacheTags' => ['invalidentitytestclass'], // read-only
+			'test' => TRUE, // read-only
 		];
 
 		$entity = new InvalidEntityTestClass();
@@ -132,6 +136,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame('Foo', $entity->name);
 		$entity->name = 'Bar';
 		$this->assertSame('Bar', $entity->name);
+
+		$this->assertSame(TRUE, $entity->test);
 	}
 
 	public function testTraversable()
@@ -144,6 +150,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5',
 			'cacheTags' => ['entitytestclass'],
+			'test' => TRUE,
 		], iterator_to_array($entity));
 	}
 

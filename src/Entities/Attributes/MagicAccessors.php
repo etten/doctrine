@@ -10,28 +10,28 @@ namespace Etten\Doctrine\Entities\Attributes;
 trait MagicAccessors
 {
 
+	/** @var string[] */
+	private $getterPrefixes = ['get', 'is', 'has'];
+
 	public function __set($name, $value)
 	{
-		$method = 'set' . ucfirst($name);
-		$this->$method($value);
+		$this->offsetSet($name, $value);
 	}
 
 	public function & __get($name)
 	{
-		$method = 'get' . ucfirst($name);
-		$value = $this->$method();
+		$value = $this->offsetGet($name);
 		return $value;
 	}
 
 	public function __isset($name)
 	{
-		$method = 'get' . ucfirst($name);
-		return method_exists($this, $method);
+		return $this->offsetExists($name);
 	}
 
 	public function __unset($name)
 	{
-		throw new \LogicException(sprintf('%s is not supported.', __METHOD__));
+		$this->offsetUnset($name);
 	}
 
 	/**
@@ -45,14 +45,18 @@ trait MagicAccessors
 
 	public function offsetExists($offset)
 	{
-		$method = 'get' . ucfirst($offset);
-		return method_exists($this, $method);
+		$method = $this->formatGetter($offset);
+		return $method && method_exists($this, $method);
 	}
 
 	public function offsetGet($offset)
 	{
-		$method = 'get' . ucfirst($offset);
-		return $this->$method();
+		$method = $this->formatGetter($offset);
+		if ($method && method_exists($this, $method)) {
+			return $this->$method();
+		} else {
+			throw new \InvalidArgumentException(sprintf('Getter for %s does not exist.', $offset));
+		}
 	}
 
 	public function offsetSet($offset, $value)
@@ -112,18 +116,42 @@ trait MagicAccessors
 		return $this;
 	}
 
+	private function formatGetter($property):string
+	{
+		$name = ucfirst($property);
+
+		foreach ($this->getterPrefixes as $prefix) {
+			$method = $prefix . $name;
+			if (method_exists($this, $method)) {
+				return $method;
+			}
+		}
+
+		return NULL;
+	}
+
 	/**
 	 * @return array [property => method]
 	 */
 	private function mapArrayGetters():array
 	{
-		$map = [];
-
+		$tempMap = [];
 		$methods = $this->mapArrayMethods(new \ReflectionClass($this));
 		foreach ($methods as $method) {
-			if (substr($method, 0, 3) === 'get') {
-				$key = lcfirst(substr($method, 3));
-				$map[$key] = $method;
+			foreach ($this->getterPrefixes as $prefix) {
+				$prefixLength = strlen($prefix);
+				if (substr($method, 0, $prefixLength) === $prefix) {
+					$key = lcfirst(substr($method, $prefixLength));
+					$tempMap[$prefix][$key] = $method;
+					break;
+				}
+			}
+		}
+
+		$map = [];
+		foreach ($this->getterPrefixes as $prefix) {
+			if (isset($tempMap[$prefix])) {
+				$map += $tempMap[$prefix];
 			}
 		}
 
