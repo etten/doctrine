@@ -10,9 +10,6 @@ namespace Etten\Doctrine\Entities\Attributes;
 trait MagicAccessors
 {
 
-	/** @var string[] */
-	private $getterPrefixes = ['get', 'is', 'has'];
-
 	public function __set($name, $value)
 	{
 		$this->offsetSet($name, $value);
@@ -45,18 +42,18 @@ trait MagicAccessors
 
 	public function offsetExists($offset)
 	{
-		$method = $this->formatGetter($offset);
-		return $method && method_exists($this, $method);
+		try {
+			$this->formatGetter($offset);
+			return TRUE;
+		} catch (\InvalidArgumentException $e) {
+			return FALSE;
+		}
 	}
 
 	public function offsetGet($offset)
 	{
 		$method = $this->formatGetter($offset);
-		if ($method && method_exists($this, $method)) {
-			return $this->$method();
-		} else {
-			throw new \InvalidArgumentException(sprintf('Getter for %s does not exist.', $offset));
-		}
+		return $this->$method();
 	}
 
 	public function offsetSet($offset, $value)
@@ -116,18 +113,23 @@ trait MagicAccessors
 		return $this;
 	}
 
+	private function getGetterPrefixes():array
+	{
+		return ['get', 'is', 'has'];
+	}
+
 	private function formatGetter($property):string
 	{
 		$name = ucfirst($property);
 
-		foreach ($this->getterPrefixes as $prefix) {
+		foreach ($this->getGetterPrefixes() as $prefix) {
 			$method = $prefix . $name;
 			if (method_exists($this, $method)) {
 				return $method;
 			}
 		}
 
-		return NULL;
+		throw new \InvalidArgumentException(sprintf('Getter for %s does not exist.', $property));
 	}
 
 	/**
@@ -140,7 +142,7 @@ trait MagicAccessors
 		// Search all methods and map prefix,key => method.
 		$methods = $this->mapArrayMethods(new \ReflectionClass($this));
 		foreach ($methods as $method) {
-			foreach ($this->getterPrefixes as $prefix) {
+			foreach ($this->getGetterPrefixes() as $prefix) {
 				$prefixLength = strlen($prefix);
 				if (substr($method, 0, $prefixLength) === $prefix) {
 					$key = lcfirst(substr($method, $prefixLength));
@@ -152,7 +154,7 @@ trait MagicAccessors
 
 		// Merge accessors by preferences (given by prefixes order).
 		$map = [];
-		foreach ($this->getterPrefixes as $prefix) {
+		foreach ($this->getGetterPrefixes() as $prefix) {
 			if (isset($tempMap[$prefix])) {
 				$map += $tempMap[$prefix];
 			}
