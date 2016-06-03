@@ -13,7 +13,6 @@ abstract class Entity implements IdProvider, Cacheable, \ArrayAccess, \IteratorA
 {
 
 	use Attributes\Cache;
-	use Attributes\ArrayAccessors;
-	use Attributes\PropertyAccessors;
+	use Attributes\MagicAccessors;
 
 }

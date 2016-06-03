@@ -7,6 +7,9 @@
 
 namespace Etten\Doctrine\Entities\Attributes;
 
+/**
+ * @deprecated Use MagicAccessors instead.
+ */
 trait PropertyAccessors
 {
 
