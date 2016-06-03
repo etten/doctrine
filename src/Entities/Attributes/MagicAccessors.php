@@ -136,6 +136,8 @@ trait MagicAccessors
 	private function mapArrayGetters():array
 	{
 		$tempMap = [];
+
+		// Search all methods and map prefix,key => method.
 		$methods = $this->mapArrayMethods(new \ReflectionClass($this));
 		foreach ($methods as $method) {
 			foreach ($this->getterPrefixes as $prefix) {
@@ -148,6 +150,7 @@ trait MagicAccessors
 			}
 		}
 
+		// Merge accessors by preferences (given by prefixes order).
 		$map = [];
 		foreach ($this->getterPrefixes as $prefix) {
 			if (isset($tempMap[$prefix])) {
