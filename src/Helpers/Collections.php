@@ -33,7 +33,7 @@ class Collections
 			}
 		}
 
-		// Add new items
+		// Add new items.
 		foreach ($to as $item) {
 			$from[] = $item;
 		}
