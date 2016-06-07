@@ -32,6 +32,27 @@ Services are registered automatically with `Etten\Doctrine\DI\DIExtension`.
 
 ## Helpers
 
+### Collections
+
+When you have i.e. `Product:Tags (M:N)` associations and set-up all values via setter `Product::setTags`, you'll
+probably get a `Duplicate entry...` error. Because you set-up new associations (replace Product's Tags Collection instance).
+
+But this kind of operation can be very easy with `Etten\Doctrine\Helpers\Collections`.
+
+Just use:
+
+```php
+
+	public function setTags(array $tags):Product
+	{
+		\Etten\Doctrine\Helpers\Collections::replace($this->tags, $tags);
+		return $this;
+	}
+
+```
+
+The `$this->tags` instance is preserved, only new items are added and removed items removed from Collection.
+
 ### FieldOrderHelper
 
 Sometimes, you need sort items by order given by another array.
