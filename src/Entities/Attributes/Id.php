@@ -23,7 +23,7 @@ trait Id
 	/**
 	 * @return int|null
 	 */
-	final public function getId()
+	public function getId()
 	{
 		return $this->id;
 	}
