@@ -58,8 +58,8 @@ class PairSelector
 	public function getPairs(string $key, string $value):array
 	{
 		$qb = $this->em->createQueryBuilder()
-			->select("e.$value, e.$key")
-			->from($this->entityName, 'e', "e.$key");
+			->select("e.$key, e.$value")
+			->from($this->entityName, 'e');
 
 		if ($this->where) {
 			$qb->where('e.' . $this->where);
@@ -77,9 +77,19 @@ class PairSelector
 			->getQuery()
 			->getResult(ORM\AbstractQuery::HYDRATE_ARRAY);
 
-		return array_map(function (array $row) {
-			return reset($row);
-		}, $data);
+		$pairs = [];
+		foreach ($data as $row) {
+			$k = $row[$key];
+
+			// Convert possible Object keys (i.e. UUID)
+			if (!is_scalar($k)) {
+				$k = (string)$k;
+			}
+
+			$pairs[$k] = $row[$value];
+		}
+
+		return $pairs;
 	}
 
 }
