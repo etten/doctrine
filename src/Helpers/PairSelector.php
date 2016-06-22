@@ -19,6 +19,9 @@ class PairSelector
 	private $entityName;
 
 	/** @var string */
+	private $where = '';
+
+	/** @var string */
 	private $groupBy = '';
 
 	/** @var string */
@@ -28,6 +31,12 @@ class PairSelector
 	{
 		$this->em = $em;
 		$this->entityName = $entityName;
+	}
+
+	public function setWhere($where):PairSelector
+	{
+		$this->where = $where;
+		return $this;
 	}
 
 	public function setGroupBy(string $groupBy):PairSelector
@@ -51,6 +60,10 @@ class PairSelector
 		$qb = $this->em->createQueryBuilder()
 			->select("e.$value, e.$key")
 			->from($this->entityName, 'e', "e.$key");
+
+		if ($this->where) {
+			$qb->where('e.' . $this->where);
+		}
 
 		if ($this->groupBy) {
 			$qb->groupBy('e.' . $this->groupBy);
