@@ -8,16 +8,16 @@
 namespace Etten\Doctrine\DI;
 
 use Doctrine\DBAL;
+use Etten\Doctrine\Entities\Types;
 use Nette\DI as NDI;
-use Ramsey\Uuid;
 
 class UuidExtension extends NDI\CompilerExtension
 {
 
 	/** @var array */
 	private $types = [
-		'uuid' => Uuid\Doctrine\UuidType::class,
-		'uuid_binary' => Uuid\Doctrine\UuidBinaryType::class,
+		'uuid' => Types\UuidType::class,
+		'uuid_binary' => Types\UuidBinaryType::class,
 	];
 
 	public function beforeCompile()

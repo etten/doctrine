@@ -16,7 +16,7 @@ trait UuidBinary
 	use Uuid;
 
 	/**
-	 * @var RUuid\UuidInterface
+	 * @var string
 	 * @ORM\Id()
 	 * @ORM\Column(type="uuid_binary")
 	 * @ORM\GeneratedValue(strategy="NONE")

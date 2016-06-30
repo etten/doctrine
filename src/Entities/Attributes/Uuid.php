@@ -14,7 +14,7 @@ trait Uuid
 {
 
 	/**
-	 * @var RUuid\UuidInterface
+	 * @var string
 	 * @ORM\Id()
 	 * @ORM\Column(type="uuid")
 	 * @ORM\GeneratedValue(strategy="NONE")
@@ -39,11 +39,7 @@ trait Uuid
 			throw new \RuntimeException('ID is not set.');
 		}
 
-		if (!$this->id instanceof RUuid\UuidInterface) {
-			throw new \RuntimeException(sprintf('ID is not instance of %s.', RUuid\UuidInterface::class));
-		}
-
-		return $this->id->toString();
+		return $this->id;
 	}
 
 	public function __clone()
@@ -53,7 +49,7 @@ trait Uuid
 
 	private function generateId()
 	{
-		$this->id = RUuid\Uuid::uuid4();
+		$this->id = RUuid\Uuid::uuid4()->toString();
 	}
 
 }
