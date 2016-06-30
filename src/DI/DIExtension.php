@@ -45,6 +45,21 @@ class DIExtension extends NDI\CompilerExtension
 				->setClass(EDoctrine\Transaction::class)
 				->setArguments([$em])
 				->setAutowired($default);
+
+			$queryFactory = $builder->addDefinition($this->fullName('queryFactory', $suffix))
+				->setClass(EDoctrine\Query\QueryFactory::class)
+				->setArguments([$em])
+				->setAutowired($default);
+
+			$queryableFactory = $builder->addDefinition($this->fullName('queryableFactory', $suffix))
+				->setClass(EDoctrine\Query\QueryableFactory::class)
+				->setArguments([$queryFactory])
+				->setAutowired($default);
+
+			$builder->addDefinition($this->fullName('queryExecutor', $suffix))
+				->setClass(EDoctrine\Query\QueryExecutor::class)
+				->setArguments([$queryableFactory])
+				->setAutowired($default);
 		}
 	}
 
