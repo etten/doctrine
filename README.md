@@ -83,11 +83,11 @@ Then applies limit and returns items as a shuffled array result.
 
 Etten/Doctrine provides comfortable cache invalidation when a specific entity is changed (in term of Doctrine: persisted, updated, removed).
 
-Entity must implements `\Etten\Doctrine\Entities\Cacheable`.
+Entity must implements `Etten\Doctrine\Entities\Cacheable`, see [interface](src/Entities/Cacheable.php).
 
-Basic implementation of Cacheable you'll get with `\Etten\Doctrine\Entities\Attributes\Cache`.
+Basic implementation of Cacheable you'll get with `Etten\Doctrine\Entities\Attributes\Cache`, see [trait](src/Entities/Attributes/Cache.php).
 
-You can also inherit from `\Etten\Doctrine\Entities\Entity` and you'll get both of these requirements.
+You can also inherit from `Etten\Doctrine\Entities\Entity` ([implementation](src/Entities/Entity.php)) and you'll get both of these requirements.
 
 Finally, you must register a Nette DI extension:
 
@@ -98,7 +98,7 @@ extensions:
 	etten.doctrine.cache: Etten\Doctrine\DI\CacheExtension
 ```
 
-When the extension is registered, cache is automatically invalidated. How? It depends on concrete implementations. For default, see `\Etten\Doctrine\Entities\Attributes\Cache` and `\Etten\Doctrine\Caching\NetteCacheInvalidator`.
+When the extension is registered, cache is automatically invalidated. How? It depends on concrete implementations. For default, see [Etten\Doctrine\Entities\Attributes\Cache](src/Entities/Attributes/Cache.php) and [Etten\Doctrine\Caching\NetteCacheInvalidator](src/Caching/NetteCacheInvalidator.php).
 
 ### UUID
 
