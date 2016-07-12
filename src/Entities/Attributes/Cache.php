@@ -20,7 +20,12 @@ trait Cache
 		$nameParts = explode('\\', get_called_class());
 		$name = strtolower(end($nameParts));
 
-		return [$name];
+		return [
+			$name,
+			$name . ':' . $this->getId(),
+			get_called_class(),
+			$this->getCacheKey(),
+		];
 	}
 
 }

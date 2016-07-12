@@ -22,6 +22,9 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertSame([
 			'entitytestclass',
+			'entitytestclass:5',
+			'Tests\Unit\EntityTestClass',
+			'Tests\Unit\EntityTestClass:5',
 		], $entity->getCacheTags());
 	}
 
@@ -34,7 +37,12 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'name' => 'Foo',
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5',
-			'cacheTags' => ['entitytestclass'],
+			'cacheTags' => [
+				'entitytestclass',
+				'entitytestclass:5',
+				'Tests\Unit\EntityTestClass',
+				'Tests\Unit\EntityTestClass:5',
+			],
 			'test' => TRUE,
 		], $entity->toArray());
 	}
@@ -55,7 +63,12 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'id' => 5,
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5',
-			'cacheTags' => ['invalidentitytestclass'],
+			'cacheTags' => [
+				'invalidentitytestclass',
+				'invalidentitytestclass:5',
+				'Tests\Unit\InvalidEntityTestClass',
+				'Tests\Unit\InvalidEntityTestClass:5',
+			],
 			'test' => TRUE,
 		], $entity->toArraySilent());
 	}
@@ -72,7 +85,12 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'name' => 'Fooo',
 			'publicBar' => 'Barr',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5', // read-only
-			'cacheTags' => ['entitytestclass'], // read-only
+			'cacheTags' => [
+				'entitytestclass',
+				'entitytestclass:5',
+				'Tests\Unit\EntityTestClass',
+				'Tests\Unit\EntityTestClass:5',
+			], // read-only
 			'test' => TRUE, // read-only
 		];
 
@@ -110,7 +128,12 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'id' => 5, // read-only
 			'publicBar' => 'Barr',
 			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5', // read-only
-			'cacheTags' => ['invalidentitytestclass'], // read-only
+			'cacheTags' => [
+				'invalidentitytestclass',
+				'invalidentitytestclass:5',
+				'Tests\Unit\InvalidEntityTestClass',
+				'Tests\Unit\InvalidEntityTestClass:5',
+			], // read-only
 			'test' => TRUE, // read-only
 		];
 
@@ -149,7 +172,12 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'name' => 'Foo',
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5',
-			'cacheTags' => ['entitytestclass'],
+			'cacheTags' => [
+				'entitytestclass',
+				'entitytestclass:5',
+				'Tests\Unit\EntityTestClass',
+				'Tests\Unit\EntityTestClass:5',
+			],
 			'test' => TRUE,
 		], iterator_to_array($entity));
 	}
