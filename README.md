@@ -79,6 +79,27 @@ Then applies limit and returns items as a shuffled array result.
 
 ## Extensions
 
+### Cache
+
+Etten/Doctrine provides comfortable cache invalidation when a specific entity is changed (in term of Doctrine: persisted, updated, removed).
+
+Entity must implements `\Etten\Doctrine\Entities\Cacheable`.
+
+Basic implementation of Cacheable you'll get with `\Etten\Doctrine\Entities\Attributes\Cache`.
+
+You can also inherit from `\Etten\Doctrine\Entities\Entity` and you'll get both of these requirements.
+
+Finally, you must register a Nette DI extension:
+
+```yaml
+# app/config.neon
+
+extensions:
+	etten.doctrine.cache: Etten\Doctrine\DI\CacheExtension
+```
+
+When the extension is registered, cache is automatically invalidated. How? It depends on concrete implementations. For default, see `\Etten\Doctrine\Entities\Attributes\Cache` and `\Etten\Doctrine\Caching\NetteCacheInvalidator`.
+
 ### UUID
 
 If you need item's ID before persist and flush, you can use [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) as a primary index.
