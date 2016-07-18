@@ -39,9 +39,9 @@ class FieldOrderHelper
 	/**
 	 * How to obtain an ID from resulting Object?
 	 * @param callable $resultId
-	 * @return $this
+	 * @return FieldOrderHelper
 	 */
-	public function setResultId(callable $resultId)
+	public function setResultId(callable $resultId) :FieldOrderHelper
 	{
 		$this->resultId = $resultId;
 		return $this;
@@ -50,9 +50,9 @@ class FieldOrderHelper
 	/**
 	 * How to obtain an ID from sorting Object?
 	 * @param callable $sortById
-	 * @return $this
+	 * @return FieldOrderHelper
 	 */
-	public function setSortById(callable $sortById)
+	public function setSortById(callable $sortById) :FieldOrderHelper
 	{
 		$this->sortById = $sortById;
 		return $this;
