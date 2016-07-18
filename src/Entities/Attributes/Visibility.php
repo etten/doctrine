@@ -8,7 +8,7 @@
 namespace Etten\Doctrine\Entities\Attributes;
 
 /**
- * @ORM\Table(indexes={@ORM\Index(name="visibility", columns={"visibility"})})
+ * @ORM\Table(indexes={@ORM\Index(name="visible", columns={"visible"})})
  */
 trait Visibility
 {
