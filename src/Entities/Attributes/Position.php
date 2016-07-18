@@ -23,22 +23,14 @@ trait Position
 	 */
 	protected $position;
 
-	/**
-	 * @return int
-	 */
 	public function getPosition():int
 	{
 		return $this->position;
 	}
 
-	/**
-	 * @param int $position
-	 * @return $this
-	 */
 	public function setPosition(int $position)
 	{
 		$this->position = $position;
-		return $this;
 	}
 
 }

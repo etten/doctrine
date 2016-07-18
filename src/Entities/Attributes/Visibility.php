@@ -19,22 +19,14 @@ trait Visibility
 	 */
 	protected $visible;
 
-	/**
-	 * @return bool
-	 */
 	public function isVisible():bool
 	{
 		return $this->visible;
 	}
 
-	/**
-	 * @param boolean $visible
-	 * @return $this
-	 */
 	public function setVisible(bool $visible)
 	{
 		$this->visible = $visible;
-		return $this;
 	}
 
 }

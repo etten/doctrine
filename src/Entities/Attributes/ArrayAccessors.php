@@ -74,8 +74,6 @@ trait ArrayAccessors
 		foreach ($arr as $key => $value) {
 			$this->offsetSet($key, $value);
 		}
-
-		return $this;
 	}
 
 	public function fromArraySilent(array $arr)
@@ -87,8 +85,6 @@ trait ArrayAccessors
 				continue;
 			}
 		}
-
-		return $this;
 	}
 
 	/**
