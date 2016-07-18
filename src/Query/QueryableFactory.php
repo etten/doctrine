@@ -20,7 +20,7 @@ class QueryableFactory
 		$this->queryFactory = $queryFactory;
 	}
 
-	public function create(string $entityName):Kdyby\Persistence\Queryable
+	public function create(string $entityName) :Kdyby\Persistence\Queryable
 	{
 		return new EntityQueryable($this->queryFactory, $entityName);
 	}

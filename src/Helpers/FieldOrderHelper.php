@@ -62,7 +62,7 @@ class FieldOrderHelper
 	 * Returns $result sorted by $sortBy.
 	 * @return array
 	 */
-	public function sort():array
+	public function sort() :array
 	{
 		$ids = array_map($this->sortById, $this->sortBy);
 		$sortIds = array_flip($ids);

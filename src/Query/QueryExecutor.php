@@ -35,7 +35,7 @@ class QueryExecutor
 		return $query->count($this->createQueryable($entityName));
 	}
 
-	private function createQueryable(string $entityName):Kdyby\Persistence\Queryable
+	private function createQueryable(string $entityName) :Kdyby\Persistence\Queryable
 	{
 		return $this->createQueryable($entityName);
 	}

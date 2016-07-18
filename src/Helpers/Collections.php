@@ -43,7 +43,7 @@ class Collections
 	 * @param IdProvider[] $items
 	 * @return IdProvider[]
 	 */
-	private static function fillKeys($items):array
+	private static function fillKeys($items) :array
 	{
 		$return = [];
 

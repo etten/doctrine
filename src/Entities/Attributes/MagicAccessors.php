@@ -67,7 +67,7 @@ trait MagicAccessors
 		throw new \LogicException(sprintf('%s is not supported.', __METHOD__));
 	}
 
-	public function toArray():array
+	public function toArray() :array
 	{
 		$arr = [];
 		foreach ($this->mapArrayGetters() as $key => $method) {
@@ -77,7 +77,7 @@ trait MagicAccessors
 		return $arr;
 	}
 
-	public function toArraySilent():array
+	public function toArraySilent() :array
 	{
 		$arr = [];
 		foreach ($this->mapArrayGetters() as $key => $method) {
@@ -109,12 +109,12 @@ trait MagicAccessors
 		}
 	}
 
-	private function getGetterPrefixes():array
+	private function getGetterPrefixes() :array
 	{
 		return ['get', 'is', 'has'];
 	}
 
-	private function formatGetter($property):string
+	private function formatGetter($property) :string
 	{
 		$name = ucfirst($property);
 
@@ -131,7 +131,7 @@ trait MagicAccessors
 	/**
 	 * @return array [property => method]
 	 */
-	private function mapArrayGetters():array
+	private function mapArrayGetters() :array
 	{
 		$tempMap = [];
 
@@ -164,7 +164,7 @@ trait MagicAccessors
 	 * @param string[] $methods
 	 * @return string[]
 	 */
-	private function mapArrayMethods(\ReflectionClass $class, array $methods = []):array
+	private function mapArrayMethods(\ReflectionClass $class, array $methods = []) :array
 	{
 		foreach ($class->getMethods() as $method) {
 			$name = $method->getName();

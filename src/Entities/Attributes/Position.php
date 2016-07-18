@@ -23,7 +23,7 @@ trait Position
 	 */
 	protected $position;
 
-	public function getPosition():int
+	public function getPosition() :int
 	{
 		return $this->position;
 	}

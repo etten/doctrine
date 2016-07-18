@@ -10,7 +10,7 @@ namespace Etten\Doctrine\Entities;
 interface Hideable
 {
 
-	public function isVisible():bool;
+	public function isVisible() :bool;
 
 	public function setVisible(bool $visible);
 

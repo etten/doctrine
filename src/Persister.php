@@ -118,7 +118,7 @@ class Persister
 	 * @param object $entity
 	 * @return bool
 	 */
-	public function contains($entity):bool
+	public function contains($entity) :bool
 	{
 		return $this->em->contains($entity);
 	}

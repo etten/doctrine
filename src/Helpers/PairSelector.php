@@ -33,13 +33,13 @@ class PairSelector
 		$this->entityName = $entityName;
 	}
 
-	public function setWhere($where):PairSelector
+	public function setWhere($where) :PairSelector
 	{
 		$this->where = $where;
 		return $this;
 	}
 
-	public function setGroupBy(string $groupBy):PairSelector
+	public function setGroupBy(string $groupBy) :PairSelector
 	{
 		$this->groupBy = $groupBy;
 		return $this;
@@ -49,13 +49,13 @@ class PairSelector
 	 * @param string $orderBy
 	 * @return PairSelector
 	 */
-	public function setOrderBy(string $orderBy):PairSelector
+	public function setOrderBy(string $orderBy) :PairSelector
 	{
 		$this->orderBy = $orderBy;
 		return $this;
 	}
 
-	public function getPairs(string $key, string $value):array
+	public function getPairs(string $key, string $value) :array
 	{
 		$qb = $this->em->createQueryBuilder()
 			->select("e.$key, e.$value")

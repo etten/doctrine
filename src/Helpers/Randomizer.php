@@ -30,7 +30,7 @@ class Randomizer
 	 * @param int $step
 	 * @return Randomizer
 	 */
-	public function setStep(int $step):Randomizer
+	public function setStep(int $step) :Randomizer
 	{
 		$this->step = $step;
 		return $this;
@@ -40,7 +40,7 @@ class Randomizer
 	 * @param int $limit Number of returned records.
 	 * @return array
 	 */
-	public function find(int $limit):array
+	public function find(int $limit) :array
 	{
 		$data = [];
 
@@ -64,17 +64,17 @@ class Randomizer
 		return $data;
 	}
 
-	private function countRows():int
+	private function countRows() :int
 	{
 		return count(new ORM\Tools\Pagination\Paginator($this->query));
 	}
 
-	private function getRandomOffset(int $rows, int $limit):int
+	private function getRandomOffset(int $rows, int $limit) :int
 	{
 		return max(0, rand(0, $rows - $limit - 1));
 	}
 
-	private function getIteratorLimit(int $remains):int
+	private function getIteratorLimit(int $remains) :int
 	{
 		$limit = $this->step;
 		if ($remains < $limit) {

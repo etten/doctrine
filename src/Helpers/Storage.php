@@ -10,14 +10,8 @@ namespace Etten\Doctrine\Helpers;
 interface Storage
 {
 
-	/**
-	 * @return mixed
-	 */
 	public function read();
 
-	/**
-	 * @param mixed $content
-	 */
 	public function write($content);
 
 }
