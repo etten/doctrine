@@ -41,7 +41,7 @@ class FieldOrderHelper
 	 * @param callable $resultId
 	 * @return FieldOrderHelper
 	 */
-	public function setResultId(callable $resultId) :FieldOrderHelper
+	public function setResultId(callable $resultId): FieldOrderHelper
 	{
 		$this->resultId = $resultId;
 		return $this;
@@ -52,7 +52,7 @@ class FieldOrderHelper
 	 * @param callable $sortById
 	 * @return FieldOrderHelper
 	 */
-	public function setSortById(callable $sortById) :FieldOrderHelper
+	public function setSortById(callable $sortById): FieldOrderHelper
 	{
 		$this->sortById = $sortById;
 		return $this;
@@ -62,7 +62,7 @@ class FieldOrderHelper
 	 * Returns $result sorted by $sortBy.
 	 * @return array
 	 */
-	public function sort() :array
+	public function sort(): array
 	{
 		$ids = array_map($this->sortById, $this->sortBy);
 		$sortIds = array_flip($ids);

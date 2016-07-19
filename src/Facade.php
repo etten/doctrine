@@ -20,12 +20,12 @@ abstract class Facade
 		$this->em = $em;
 	}
 
-	protected function createQueryBuilder() :ORM\QueryBuilder
+	protected function createQueryBuilder(): ORM\QueryBuilder
 	{
 		return $this->em->createQueryBuilder();
 	}
 
-	protected function getRepository(string $entityName) :ORM\EntityRepository
+	protected function getRepository(string $entityName): ORM\EntityRepository
 	{
 		return $this->em->getRepository($entityName);
 	}

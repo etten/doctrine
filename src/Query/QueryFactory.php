@@ -25,7 +25,7 @@ class QueryFactory
 	 * @param string $dql The DQL string.
 	 * @return ORM\Query
 	 */
-	public function createQuery(string $dql = '') :ORM\Query
+	public function createQuery(string $dql = ''): ORM\Query
 	{
 		return $this->em->createQuery($dql);
 	}
@@ -35,7 +35,7 @@ class QueryFactory
 	 * @param string $name
 	 * @return ORM\Query
 	 */
-	public function createNamedQuery(string $name) :ORM\Query
+	public function createNamedQuery(string $name): ORM\Query
 	{
 		return $this->em->createNamedQuery($name);
 	}
@@ -46,7 +46,7 @@ class QueryFactory
 	 * @param ORM\Query\ResultSetMapping $rsm The ResultSetMapping to use.
 	 * @return ORM\NativeQuery
 	 */
-	public function createNativeQuery(string $sql, ORM\Query\ResultSetMapping $rsm) :ORM\NativeQuery
+	public function createNativeQuery(string $sql, ORM\Query\ResultSetMapping $rsm): ORM\NativeQuery
 	{
 		return $this->em->createNativeQuery($sql, $rsm);
 	}
@@ -56,7 +56,7 @@ class QueryFactory
 	 * @param string $name
 	 * @return ORM\NativeQuery
 	 */
-	public function createNamedNativeQuery(string $name) :ORM\NativeQuery
+	public function createNamedNativeQuery(string $name): ORM\NativeQuery
 	{
 		return $this->em->createNamedNativeQuery($name);
 	}
@@ -65,7 +65,7 @@ class QueryFactory
 	 * Create a QueryBuilder instance
 	 * @return ORM\QueryBuilder
 	 */
-	public function createQueryBuilder() :ORM\QueryBuilder
+	public function createQueryBuilder(): ORM\QueryBuilder
 	{
 		return $this->em->createQueryBuilder();
 	}

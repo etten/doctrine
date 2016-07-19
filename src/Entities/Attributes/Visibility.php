@@ -19,7 +19,7 @@ trait Visibility
 	 */
 	protected $visible;
 
-	public function isVisible() :bool
+	public function isVisible(): bool
 	{
 		return $this->visible;
 	}

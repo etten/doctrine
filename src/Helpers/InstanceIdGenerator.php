@@ -13,7 +13,7 @@ class InstanceIdGenerator
 	/** @var Storage */
 	public static $storage;
 
-	public static function generate() :int
+	public static function generate(): int
 	{
 		$storage = self::$storage;
 		if (!$storage) {

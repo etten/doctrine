@@ -10,7 +10,7 @@ namespace Etten\Doctrine\Entities;
 interface Sortable extends \Gedmo\Sortable\Sortable
 {
 
-	public function getPosition() :int;
+	public function getPosition(): int;
 
 	public function setPosition(int $position);
 

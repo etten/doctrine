@@ -25,7 +25,7 @@ class RepositoryLocator
 	 * @param string $entityName
 	 * @return ORM\EntityRepository
 	 */
-	public function get(string $entityName) :ORM\EntityRepository
+	public function get(string $entityName): ORM\EntityRepository
 	{
 		return $this->em->getRepository($entityName);
 	}
