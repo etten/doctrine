@@ -162,13 +162,47 @@ Usage:
 
 public function search(string $q)
 {
-	$q = $this->createJoinedQueryBuilder()
+	$qb = $this->createQueryBuilder()
 		->addSelect('MATCH (a.title) AGAINST (:search) as HIDDEN score')
 		->addWhere('MATCH (a.title) AGAINST (:search) > 1')
 		->setParameter('search', $q)
 		->orderBy('score', 'desc');
 
-	return new Paginator($q);
+	return new Paginator($qb);
+}
+
+```
+
+### MySQL FIELD
+
+The original source of the code is [here](http://stackoverflow.com/a/10164133).
+
+Register a DQL in config:
+
+```yaml
+# app/config.neon
+
+kdyby.doctrine:
+	dql:
+		string:
+			MATCH: Etten\Doctrine\DQL\FieldFunction
+
+```
+
+Usage:
+
+```php
+<?php
+
+public function search(array $ids)
+{
+	$qb = $this->createQueryBuilder()
+		->addSelect('FIELD(p.id, :ids) as HIDDEN score')
+		->andWhere('p.id IN :ids')
+		->setParameter('ids', $ids)
+		->orderBy('score', 'desc');
+
+	return new Paginator($qb);
 }
 
 ```
