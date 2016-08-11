@@ -6,7 +6,6 @@
 
 namespace Etten\Doctrine\Helpers;
 
-use Doctrine\DBAL\Types\ConversionException;
 use Ramsey;
 
 class Uuid
