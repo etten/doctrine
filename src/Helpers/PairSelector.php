@@ -8,6 +8,7 @@
 namespace Etten\Doctrine\Helpers;
 
 use Doctrine\ORM;
+use Etten\Doctrine\Helpers\PairSelectorCodecs;
 
 class PairSelector
 {
@@ -17,6 +18,9 @@ class PairSelector
 
 	/** @var string */
 	private $entityName;
+
+	/** @var callable */
+	private $codec = PairSelectorCodecs\ObjectToStringCodec::class;
 
 	/** @var string */
 	private $where = '';
@@ -31,6 +35,12 @@ class PairSelector
 	{
 		$this->em = $em;
 		$this->entityName = $entityName;
+	}
+
+	public function setCodec(callable $codec): PairSelector
+	{
+		$this->codec = $codec;
+		return $this;
 	}
 
 	public function setWhere($where): PairSelector
@@ -81,10 +91,8 @@ class PairSelector
 		foreach ($data as $row) {
 			$k = $row[$key];
 
-			// Convert possible Object keys (i.e. UUID)
-			if (!is_scalar($k)) {
-				$k = (string)$k;
-			}
+			$codec = $this->codec;
+			$k = $codec($k);
 
 			$pairs[$k] = $row[$value];
 		}
