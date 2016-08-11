@@ -37,12 +37,20 @@ trait InstanceId
 		return $this->id;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getHexId()
+	{
+		return (string)$this->id;
+	}
+
 	public function __clone()
 	{
 		$this->generateId();
 	}
 
-	private function generateId()
+	protected function generateId()
 	{
 		$this->id = InstanceIdGenerator::generate();
 	}

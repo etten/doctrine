@@ -75,6 +75,11 @@ class EntityTestClass extends Entity
 		return $this->id;
 	}
 
+	public function getHexId():string
+	{
+		return (string)$this->id;
+	}
+
 	public function getName():string
 	{
 		return $this->name;

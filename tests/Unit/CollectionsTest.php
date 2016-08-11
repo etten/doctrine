@@ -59,6 +59,11 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase
 				return $this->id;
 			}
 
+			public function getHexId()
+			{
+				return (string)$this->id;
+			}
+
 		};
 	}
 

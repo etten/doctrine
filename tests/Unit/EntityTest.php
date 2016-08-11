@@ -34,6 +34,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertSame([
 			'id' => 5,
+			'hexId' => '5',
 			'name' => 'Foo',
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5',
@@ -61,6 +62,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertSame([
 			'id' => 5,
+			'hexId' => '5',
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5',
 			'cacheTags' => [
@@ -82,6 +84,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 		$to = [
 			'id' => 5, // read-only
+			'hexId' => '5', // read-only
 			'name' => 'Fooo',
 			'publicBar' => 'Barr',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5', // read-only
@@ -104,6 +107,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 	{
 		$from = [
 			'id' => 9,
+			'hexId' => '9',
 			'name' => NULL,
 			'publicBar' => 'Barr',
 		];
@@ -118,6 +122,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 	{
 		$from = [
 			'id' => 9,
+			'hexId' => '9',
 			'name' => NULL,
 			'publicBar' => 'Barr',
 			'cacheKey' => '###',
@@ -126,6 +131,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 		$to = [
 			'id' => 5, // read-only
+			'hexId' => '5', // read-only
 			'publicBar' => 'Barr',
 			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5', // read-only
 			'cacheTags' => [
@@ -169,6 +175,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertSame([
 			'id' => 5,
+			'hexId' => '5',
 			'name' => 'Foo',
 			'publicBar' => 'Bar',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5',

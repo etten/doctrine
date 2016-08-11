@@ -10,6 +10,14 @@ namespace Etten\Doctrine\Entities;
 interface IdProvider
 {
 
+	/**
+	 * @return mixed
+	 */
 	public function getId();
+
+	/**
+	 * @return string
+	 */
+	public function getHexId();
 
 }
