@@ -42,6 +42,14 @@ trait Uuid
 		return $this->id;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getHexId()
+	{
+		return RUuid\Uuid::fromString($this->getId())->getHex();
+	}
+
 	public function __clone()
 	{
 		$this->generateId();

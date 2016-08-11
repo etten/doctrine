@@ -23,6 +23,14 @@ trait UuidBinary
 	 */
 	protected $id;
 
+	/**
+	 * @return string
+	 */
+	public function getHexId()
+	{
+		return RUuid\Uuid::fromBytes($this->getId())->getHex();
+	}
+
 	protected function generateId()
 	{
 		$this->id = RUuid\Uuid::uuid4()->getBytes();
