@@ -21,7 +21,7 @@ trait Position
 	 * @Gedmo\SortablePosition()
 	 * @ORM\Column(type="integer")
 	 */
-	protected $position;
+	protected $position = 0;
 
 	public function getPosition(): int
 	{
