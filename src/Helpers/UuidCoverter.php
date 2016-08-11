@@ -8,7 +8,7 @@ namespace Etten\Doctrine\Helpers;
 
 use Ramsey;
 
-class Uuid
+class UuidCoverter
 {
 
 	public static function binaryToHex($value)

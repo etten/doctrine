@@ -6,14 +6,14 @@
 
 namespace Etten\Doctrine\Helpers\PairSelectorCodecs;
 
-use Etten\Doctrine\Helpers\Uuid;
+use Etten\Doctrine\Helpers\UuidCoverter;
 
 class UuidBinaryToHexCodec
 {
 
 	public function __invoke($k)
 	{
-		return Uuid::binaryToHex($k);
+		return UuidCoverter::binaryToHex($k);
 	}
 
 }
