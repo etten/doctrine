@@ -33,7 +33,7 @@ trait UuidBinary
 
 	protected function generateId()
 	{
-		$this->id = RUuid\Uuid::uuid4()->getBytes();
+		$this->id = RUuid\Uuid::uuid1()->getBytes();
 	}
 
 }
