@@ -6,14 +6,14 @@
 
 namespace Etten\Doctrine\Helpers\PairSelectorCodecs;
 
-use Ramsey;
+use Etten\Doctrine\Helpers\Uuid;
 
 class UuidBinaryToHexCodec
 {
 
 	public function __invoke($k)
 	{
-		return Ramsey\Uuid\Uuid::fromBytes($k)->getHex();
+		return Uuid::binaryToHex($k);
 	}
 
 }
