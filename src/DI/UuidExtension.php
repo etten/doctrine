@@ -9,9 +9,10 @@ namespace Etten\Doctrine\DI;
 
 use Doctrine\DBAL;
 use Etten\Doctrine\Entities\Types;
-use Nette\DI as NDI;
+use Nette;
+use Ramsey;
 
-class UuidExtension extends NDI\CompilerExtension
+class UuidExtension extends Nette\DI\CompilerExtension
 {
 
 	/** @var array */
@@ -42,6 +43,20 @@ class UuidExtension extends NDI\CompilerExtension
 				);
 			}
 		}
+	}
+
+	public function afterCompile(Nette\PhpGenerator\ClassType $class)
+	{
+		$initialize = $class->getMethod('initialize');
+		$initialize->addBody('\Etten\Doctrine\DI\UuidExtension::setup();');
+	}
+
+	public static function setup()
+	{
+		$factory = new Ramsey\Uuid\UuidFactory();
+		$codec = new Ramsey\Uuid\Codec\OrderedTimeCodec($factory->getUuidBuilder());
+		$factory->setCodec($codec);
+		Ramsey\Uuid\Uuid::setFactory($factory);
 	}
 
 }
