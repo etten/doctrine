@@ -110,7 +110,14 @@ But you can generate UUID before persist and flush, in PHP.
 
 For more information see [ramsey/uuid-doctrine](https://github.com/ramsey/uuid-doctrine).
 
-You can add the UUID support by registering a Nette DI extension:
+In etten/doctrine, UUID types are used a bit differently:
+
+* [UuidBinary](src/Entities/Attributes/UuidBinary.php) has really a binary attribute, not Uuid instance. But you can get hexdec value when you need it (i.e. select in a form).
+* [Uuid](src/Entities/Attributes/Uuid.php) has really a string attribute, not Uuid instance. See UuidBinary above.
+* [UuidBinary uses InnoDB optimized](https://github.com/ramsey/uuid/pull/118) variant by default.
+* When you need simple conversion of types, you can use [UuidConverter](src/Helpers/UuidConverter.php).
+
+In a Nette Framework application, simple add UUID support by registering an extension:
 
 ```yaml
 # app/config.neon
