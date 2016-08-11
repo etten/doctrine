@@ -19,8 +19,8 @@ class PairSelector
 	/** @var string */
 	private $entityName;
 
-	/** @var callable */
-	private $codec = PairSelectorCodecs\ObjectToStringCodec::class;
+	/** @var callable|null */
+	private $codec;
 
 	/** @var string */
 	private $where = '';
@@ -91,13 +91,22 @@ class PairSelector
 		foreach ($data as $row) {
 			$k = $row[$key];
 
-			$codec = $this->codec;
+			$codec = $this->getCodec();
 			$k = $codec($k);
 
 			$pairs[$k] = $row[$value];
 		}
 
 		return $pairs;
+	}
+
+	private function getCodec(): callable
+	{
+		if ($this->codec === NULL) {
+			$this->codec = new PairSelectorCodecs\ObjectToStringCodec();
+		}
+
+		return $this->codec;
 	}
 
 }

@@ -11,7 +11,7 @@ use Ramsey;
 class UuidBinaryToHexCodec
 {
 
-	public function __invoke($k): callable
+	public function __invoke($k)
 	{
 		return Ramsey\Uuid\Uuid::fromBytes($k)->getHex();
 	}

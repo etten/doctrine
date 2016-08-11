@@ -9,7 +9,7 @@ namespace Etten\Doctrine\Helpers\PairSelectorCodecs;
 class ObjectToStringCodec
 {
 
-	public function __invoke($k): callable
+	public function __invoke($k)
 	{
 		// Convert possible Object keys to string (i.e. UUID).
 		if (!is_scalar($k)) {
