@@ -17,7 +17,7 @@ trait Visibility
 	 * @var bool
 	 * @ORM\Column(type="boolean")
 	 */
-	protected $visible;
+	protected $visible = TRUE;
 
 	public function isVisible(): bool
 	{
