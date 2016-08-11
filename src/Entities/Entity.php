@@ -7,7 +7,7 @@
 
 namespace Etten\Doctrine\Entities;
 
-abstract class Entity implements IdProvider, Cacheable, \ArrayAccess, \IteratorAggregate
+abstract class Entity implements IdProvider, HexIdProvider, Cacheable, \ArrayAccess, \IteratorAggregate
 {
 
 	use Attributes\Cache;

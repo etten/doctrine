@@ -28,14 +28,6 @@ trait Id
 		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getHexId()
-	{
-		return (string)$this->id;
-	}
-
 	public function __clone()
 	{
 		$this->id = NULL;
