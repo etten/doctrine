@@ -8,14 +8,32 @@
 namespace Etten\Doctrine\Entities\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Ramsey\Uuid;
+use Doctrine\DBAL\Types\ConversionException;
+use Ramsey;
 
-class UuidType extends Uuid\Doctrine\UuidType
+class UuidType extends Ramsey\Uuid\Doctrine\UuidType
 {
 
 	public function convertToDatabaseValue($value, AbstractPlatform $platform)
 	{
-		return $value;
+		// Nullable
+		if (empty($value)) {
+			return NULL;
+		}
+
+		// Uuid instance.
+		if ($value instanceof Ramsey\Uuid\Uuid) {
+			return $value->toString();
+		}
+
+		// Otherwise, try convert.
+		try {
+			$uuid = Ramsey\Uuid\Uuid::fromString($value);
+		} catch (\InvalidArgumentException $e) {
+			throw ConversionException::conversionFailed($value, self::NAME);
+		}
+
+		return $uuid->toString();
 	}
 
 	public function convertToPHPValue($value, AbstractPlatform $platform)

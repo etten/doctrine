@@ -23,4 +23,9 @@ trait UuidBinary
 	 */
 	protected $id;
 
+	protected function generateId()
+	{
+		$this->id = RUuid\Uuid::uuid4()->getBytes();
+	}
+
 }

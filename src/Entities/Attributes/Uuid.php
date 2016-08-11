@@ -47,7 +47,7 @@ trait Uuid
 		$this->generateId();
 	}
 
-	private function generateId()
+	protected function generateId()
 	{
 		$this->id = RUuid\Uuid::uuid4()->toString();
 	}
