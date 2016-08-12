@@ -37,6 +37,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'hexId' => '5',
 			'name' => 'Foo',
 			'publicBar' => 'Bar',
+			'cacheId' => '5',
+			'cacheName' => 'entitytestclass',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5',
 			'cacheTags' => [
 				'entitytestclass',
@@ -64,6 +66,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'id' => 5,
 			'hexId' => '5',
 			'publicBar' => 'Bar',
+			'cacheId' => '5',
+			'cacheName' => 'invalidentitytestclass',
 			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5',
 			'cacheTags' => [
 				'invalidentitytestclass',
@@ -87,6 +91,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'hexId' => '5', // read-only
 			'name' => 'Fooo',
 			'publicBar' => 'Barr',
+			'cacheId' => '5',
+			'cacheName' => 'entitytestclass',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5', // read-only
 			'cacheTags' => [
 				'entitytestclass',
@@ -133,6 +139,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'id' => 5, // read-only
 			'hexId' => '5', // read-only
 			'publicBar' => 'Barr',
+			'cacheId' => '5',
+			'cacheName' => 'invalidentitytestclass',
 			'cacheKey' => 'Tests\Unit\InvalidEntityTestClass:5', // read-only
 			'cacheTags' => [
 				'invalidentitytestclass',
@@ -178,6 +186,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 			'hexId' => '5',
 			'name' => 'Foo',
 			'publicBar' => 'Bar',
+			'cacheId' => '5',
+			'cacheName' => 'entitytestclass',
 			'cacheKey' => 'Tests\Unit\EntityTestClass:5',
 			'cacheTags' => [
 				'entitytestclass',
