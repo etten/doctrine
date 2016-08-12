@@ -16,7 +16,7 @@ class NetteCacheInvalidator implements CacheInvalidator
 	/** @var NCaching\IStorage */
 	private $storage;
 
-	/** @var array */
+	/** @var array[] */
 	private $queue = [];
 
 	public function __construct(NCaching\IStorage $storage)
@@ -26,19 +26,20 @@ class NetteCacheInvalidator implements CacheInvalidator
 
 	public function queue(Cacheable $cacheable)
 	{
-		$tags = $this->queue[NCaching\Cache::TAGS] ?? [];
-		$tags = array_merge($tags, $cacheable->getCacheTags());
-		$tags = array_unique($tags);
-
-		$this->queue[NCaching\Cache::TAGS] = $tags;
+		$this->queue[] = [
+			NCaching\Cache::TAGS => $cacheable->getCacheTags(),
+		];
 	}
 
 	public function flush()
 	{
-		if ($this->queue) {
-			$this->storage->clean($this->queue);
-			$this->queue = [];
+		// Clean IStorage step-by-step due to possible bind limits
+		// (SQL and cache tags as parameters).
+		foreach ($this->queue as $conditions) {
+			$this->storage->clean($conditions);
 		}
+
+		$this->queue = [];
 	}
 
 }
