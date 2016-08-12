@@ -29,7 +29,13 @@ class CacheExtension extends NDI\CompilerExtension
 			->setClass(EDoctrine\Caching\CacheInvalidatorStack::class)
 			->setAutowired(FALSE);
 
-		foreach ($config['invalidators'] as $invalidator) {
+		foreach ($config['invalidators'] as $key => $invalidator) {
+			if (is_string($invalidator)) {
+				$invalidator = $builder->addDefinition($this->prefix('invalidator.' . $key))
+					->setClass($invalidator)
+					->setAutowired(FALSE);
+			}
+
 			$invalidatorStack->addSetup('add', [$invalidator]);
 		}
 
