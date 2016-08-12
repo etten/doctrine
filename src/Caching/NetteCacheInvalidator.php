@@ -28,6 +28,7 @@ class NetteCacheInvalidator implements CacheInvalidator
 	{
 		$tags = $this->queue[NCaching\Cache::TAGS] ?? [];
 		$tags = array_merge($tags, $cacheable->getCacheTags());
+		$tags = array_unique($tags);
 
 		$this->queue[NCaching\Cache::TAGS] = $tags;
 	}
