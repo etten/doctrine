@@ -15,7 +15,9 @@ class CacheExtension extends NDI\CompilerExtension
 {
 
 	private $defaults = [
-		'invalidator' => EDoctrine\Caching\NetteCacheInvalidator::class,
+		'invalidators' => [
+			EDoctrine\Caching\NetteCacheInvalidator::class,
+		],
 	];
 
 	public function beforeCompile()
@@ -23,16 +25,17 @@ class CacheExtension extends NDI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$config = NDI\Config\Helpers::merge($this->config, $this->defaults);
 
-		$invalidator = $config['invalidator'];
-		if (is_string($invalidator)) {
-			$invalidator = $builder->addDefinition($this->prefix('invalidator'))
-				->setClass($invalidator)
-				->setAutowired(FALSE);
+		$invalidatorStack = $builder->addDefinition($this->prefix('invalidator'))
+			->setClass(EDoctrine\Caching\CacheInvalidatorStack::class)
+			->setAutowired(FALSE);
+
+		foreach ($config['invalidators'] as $invalidator) {
+			$invalidatorStack->addSetup('add', [$invalidator]);
 		}
 
 		$cacheSubscriber = $builder->addDefinition($this->prefix('subscriber'))
 			->setClass(EDoctrine\Caching\CacheSubscriber::class)
-			->setArguments([$invalidator])
+			->setArguments([$invalidatorStack])
 			->setAutowired(FALSE);
 
 		$entityManagers = $builder->findByType(ORM\EntityManager::class);
