@@ -16,16 +16,28 @@ class NetteCacheInvalidator implements CacheInvalidator
 	/** @var NCaching\IStorage */
 	private $storage;
 
+	/** @var array */
+	private $queue = [];
+
 	public function __construct(NCaching\IStorage $storage)
 	{
 		$this->storage = $storage;
 	}
 
-	public function invalidate(Cacheable $cacheable)
+	public function queue(Cacheable $cacheable)
 	{
-		$this->storage->clean([
-			NCaching\Cache::TAGS => $cacheable->getCacheTags(),
-		]);
+		$tags = $this->queue[NCaching\Cache::TAGS] ?? [];
+		$tags = array_merge($tags, $cacheable->getCacheTags());
+
+		$this->queue[NCaching\Cache::TAGS] = $tags;
+	}
+
+	public function flush()
+	{
+		if ($this->queue) {
+			$this->storage->clean($this->queue);
+			$this->queue = [];
+		}
 	}
 
 }

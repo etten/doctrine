@@ -25,9 +25,10 @@ class CacheSubscriber implements Common\EventSubscriber
 	public function getSubscribedEvents()
 	{
 		return [
-			ORM\Events::postPersist => 'postChange',
-			ORM\Events::postUpdate => 'postChange',
-			ORM\Events::postRemove => 'postChange',
+			ORM\Events::postPersist => 'queue',
+			ORM\Events::postUpdate => 'queue',
+			ORM\Events::preRemove => 'queue',
+			ORM\Events::postFlush => 'flush',
 		];
 	}
 
@@ -35,13 +36,21 @@ class CacheSubscriber implements Common\EventSubscriber
 	 * @param Common\Persistence\Event\LifecycleEventArgs $args
 	 * @internal
 	 */
-	public function postChange(Common\Persistence\Event\LifecycleEventArgs $args)
+	public function queue(Common\Persistence\Event\LifecycleEventArgs $args)
 	{
 		$object = $args->getObject();
 
 		if ($object instanceof Cacheable) {
-			$this->invalidator->invalidate($object);
+			$this->invalidator->queue($object);
 		}
+	}
+
+	/**
+	 * @internal
+	 */
+	public function flush()
+	{
+		$this->invalidator->flush();
 	}
 
 }

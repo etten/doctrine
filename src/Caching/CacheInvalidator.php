@@ -12,6 +12,8 @@ use Etten\Doctrine\Entities\Cacheable;
 interface CacheInvalidator
 {
 
-	public function invalidate(Cacheable $cacheable);
+	public function queue(Cacheable $cacheable);
+
+	public function flush();
 
 }
