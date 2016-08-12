@@ -12,7 +12,7 @@ trait Cache
 
 	public function getCacheKey(): string
 	{
-		return get_called_class() . ':' . $this->getId();
+		return get_called_class() . ':' . $this->getCacheId();
 	}
 
 	public function getCacheTags(): array
@@ -22,10 +22,15 @@ trait Cache
 
 		return [
 			$name,
-			$name . ':' . $this->getId(),
+			$name . ':' . $this->getCacheId(),
 			get_called_class(),
 			$this->getCacheKey(),
 		];
+	}
+
+	protected function getCacheId()
+	{
+		return $this->getHexId();
 	}
 
 }
