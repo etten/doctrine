@@ -10,6 +10,17 @@ namespace Etten\Doctrine\Entities\Attributes;
 trait Cache
 {
 
+	public function getCacheId()
+	{
+		return $this->getHexId();
+	}
+
+	public function getCacheName()
+	{
+		$nameParts = explode('\\', get_called_class());
+		return strtolower(end($nameParts));
+	}
+
 	public function getCacheKey(): string
 	{
 		return get_called_class() . ':' . $this->getCacheId();
@@ -17,8 +28,7 @@ trait Cache
 
 	public function getCacheTags(): array
 	{
-		$nameParts = explode('\\', get_called_class());
-		$name = strtolower(end($nameParts));
+		$name = $this->getCacheName();
 
 		return [
 			$name,
@@ -26,11 +36,6 @@ trait Cache
 			get_called_class(),
 			$this->getCacheKey(),
 		];
-	}
-
-	protected function getCacheId()
-	{
-		return $this->getHexId();
 	}
 
 }
