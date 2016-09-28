@@ -13,6 +13,8 @@ use Etten\Doctrine\Helpers\PairSelectorCodecs;
 class PairSelector
 {
 
+	const ENTITY_SELECTOR = 'e';
+
 	/** @var ORM\EntityManager */
 	private $em;
 
@@ -43,7 +45,7 @@ class PairSelector
 		return $this;
 	}
 
-	public function setWhere($where): PairSelector
+	public function setWhere(string $where): PairSelector
 	{
 		$this->where = $where;
 		return $this;
@@ -55,32 +57,40 @@ class PairSelector
 		return $this;
 	}
 
-	/**
-	 * @param string $orderBy
-	 * @return PairSelector
-	 */
 	public function setOrderBy(string $orderBy): PairSelector
 	{
 		$this->orderBy = $orderBy;
 		return $this;
 	}
 
-	public function getPairs(string $key, string $value): array
+	public function getPairs(string $key, string $value, callable $builder = NULL): array
 	{
+		$e = $this->parseSelector($key);
+
+		$expandedKey = $this->expandQuery($key, $e);
+		$expandedValue = $this->expandQuery($value, $e);
+
+		$shrinkKey = $this->shrinkQuery($key);
+		$shrinkValue = $this->shrinkQuery($value);
+
 		$qb = $this->em->createQueryBuilder()
-			->select("e.$key, e.$value")
-			->from($this->entityName, 'e');
+			->select("$expandedKey, $expandedValue")
+			->from($this->entityName, $e);
+
+		if ($builder) {
+			$builder($qb);
+		}
 
 		if ($this->where) {
-			$qb->where('e.' . $this->where);
+			$qb->andWhere($this->expandQuery($this->where, $e));
 		}
 
 		if ($this->groupBy) {
-			$qb->groupBy('e.' . $this->groupBy);
+			$qb->groupBy($this->expandQuery($this->groupBy, $e));
 		}
 
 		if ($this->orderBy) {
-			$qb->orderBy('e.' . $this->orderBy);
+			$qb->orderBy($this->expandQuery($this->orderBy, $e));
 		}
 
 		$data = $qb
@@ -89,12 +99,12 @@ class PairSelector
 
 		$pairs = [];
 		foreach ($data as $row) {
-			$k = $row[$key];
+			$k = $row[$shrinkKey];
 
 			$codec = $this->getCodec();
 			$k = $codec($k);
 
-			$pairs[$k] = $row[$value];
+			$pairs[$k] = $row[$shrinkValue];
 		}
 
 		return $pairs;
@@ -107,6 +117,31 @@ class PairSelector
 		}
 
 		return $this->codec;
+	}
+
+	private function parseSelector(string $q): string
+	{
+		if (strpos($q, '.') === FALSE) {
+			return self::ENTITY_SELECTOR;
+		} else {
+			$exp = explode('.', $q);
+			return array_shift($exp);
+		}
+	}
+
+	private function expandQuery(string $q, string $selector): string
+	{
+		if (strpos($q, '.') === FALSE) {
+			$q = $selector . '.' . $q;
+		}
+
+		return $q;
+	}
+
+	private function shrinkQuery(string $q): string
+	{
+		$exp = explode('.', $q);
+		return array_pop($exp);
 	}
 
 }
