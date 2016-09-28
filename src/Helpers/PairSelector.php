@@ -24,8 +24,8 @@ class PairSelector
 	/** @var callable|null */
 	private $codec;
 
-	/** @var string */
-	private $where = '';
+	/** @var array */
+	private $where = [];
 
 	/** @var string */
 	private $groupBy = '';
@@ -47,7 +47,13 @@ class PairSelector
 
 	public function setWhere(string $where): PairSelector
 	{
-		$this->where = $where;
+		$this->where = [$where];
+		return $this;
+	}
+
+	public function andWhere(string $where): PairSelector
+	{
+		$this->where[] = $where;
 		return $this;
 	}
 
@@ -82,7 +88,9 @@ class PairSelector
 		}
 
 		if ($this->where) {
-			$qb->andWhere($this->expandQuery($this->where, $e));
+			foreach ($this->where as $where) {
+				$qb->andWhere($this->expandQuery($where, $e));
+			}
 		}
 
 		if ($this->groupBy) {
