@@ -7,7 +7,6 @@
 
 namespace Etten\Doctrine\DI;
 
-use Etten\Doctrine\Helpers\FileStorage;
 use Nette\DI as NDI;
 use Nette\PhpGenerator;
 
@@ -16,8 +15,7 @@ class InstanceIdExtension extends NDI\CompilerExtension
 
 	/** @var array */
 	private $defaults = [
-		'path' => 'safe://%storageDir%/instance-generator.id',
-		'storage' => FileStorage::class,
+		'path' => '%storageDir%/instance-generator.id',
 	];
 
 	public function afterCompile(PhpGenerator\ClassType $class)
@@ -27,11 +25,9 @@ class InstanceIdExtension extends NDI\CompilerExtension
 			$this->getContainerBuilder()->expand($this->defaults)
 		);
 
-		$storageClass = '\\' . ltrim($config['storage'], '\\');
-
 		$initialize = $class->getMethod('initialize');
-		$initialize->addBody('\Etten\Doctrine\Helpers\InstanceIdGenerator::$storage = ?;', [
-			new PhpGenerator\PhpLiteral(PhpGenerator\Helpers::formatArgs("new $storageClass(?)", [$config['path']])),
+		$initialize->addBody('\Etten\Doctrine\Helpers\InstanceIdGenerator::$lock = ?;', [
+			new PhpGenerator\PhpLiteral(PhpGenerator\Helpers::formatArgs('new \Etten\Utils\FileLock(?)', [$config['path']])),
 		]);
 	}
 

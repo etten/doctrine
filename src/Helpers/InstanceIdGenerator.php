@@ -7,23 +7,49 @@
 
 namespace Etten\Doctrine\Helpers;
 
+use Etten\LockException;
+use Etten\Utils;
+
 class InstanceIdGenerator
 {
 
-	/** @var Storage */
-	public static $storage;
+	/** @var Utils\Lock */
+	public static $lock;
 
 	public static function generate(): int
 	{
-		$storage = self::$storage;
-		if (!$storage) {
-			throw new \RuntimeException('self::$storage is not set.');
-		}
+		$lock = self::tryOpenLock();
 
-		$id = (int)trim($storage->read());
-		$storage->write(++$id);
+		$id = (int)trim($lock->read());
+		$lock->write(++$id);
+
+		$lock->close();
 
 		return $id;
+	}
+
+	private static function tryOpenLock(): Utils\Lock
+	{
+		$timeout = 10000; // 10000 μs = 10 ms
+		$repeats = 100; // 100 * $timeout = 1000 ms = 1 s
+
+		while (TRUE) {
+			$repeats--;
+
+			try {
+				self::$lock->open();
+				return self::$lock;
+			} catch (LockException $e) {
+				if ($repeats > 0) {
+					usleep($timeout);
+					continue;
+				} else {
+					throw $e;
+				}
+			}
+		}
+
+		throw new \RuntimeException('Cannot acquire a lock.');
 	}
 
 }
