@@ -22,44 +22,44 @@ class DIExtension extends NDI\CompilerExtension
 		$i = 0;
 		foreach ($entityManagers as $name => $em) {
 			$suffix = $i;
-			$default = $i === 0;
+			$autoWired = $em->isAutowired();
+
 			$i++;
 
 			// Kdyby\Doctrine support
 			if (preg_match('~kdyby\.doctrine\.([a-zA-Z0-9_]+)\.entityManager~', $name, $m)) {
 				$suffix = $m[1];
-				$default = $suffix === 'default';
 			}
 
 			$builder->addDefinition($this->fullName('persister', $suffix))
 				->setClass(EDoctrine\Persister::class)
 				->setArguments([$em])
-				->setAutowired($default);
+				->setAutowired($autoWired);
 
 			$builder->addDefinition($this->fullName('repositoryLocator', $suffix))
 				->setClass(EDoctrine\RepositoryLocator::class)
 				->setArguments([$em])
-				->setAutowired($default);
+				->setAutowired($autoWired);
 
 			$builder->addDefinition($this->fullName('transaction', $suffix))
 				->setClass(EDoctrine\Transaction::class)
 				->setArguments([$em])
-				->setAutowired($default);
+				->setAutowired($autoWired);
 
 			$queryFactory = $builder->addDefinition($this->fullName('queryFactory', $suffix))
 				->setClass(EDoctrine\Query\QueryFactory::class)
 				->setArguments([$em])
-				->setAutowired($default);
+				->setAutowired($autoWired);
 
 			$queryableFactory = $builder->addDefinition($this->fullName('queryableFactory', $suffix))
 				->setClass(EDoctrine\Query\QueryableFactory::class)
 				->setArguments([$queryFactory])
-				->setAutowired($default);
+				->setAutowired($autoWired);
 
 			$builder->addDefinition($this->fullName('queryExecutor', $suffix))
 				->setClass(EDoctrine\Query\QueryExecutor::class)
 				->setArguments([$queryableFactory])
-				->setAutowired($default);
+				->setAutowired($autoWired);
 		}
 	}
 
