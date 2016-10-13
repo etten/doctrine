@@ -12,12 +12,12 @@ use Doctrine\DBAL;
 class TypeHelper
 {
 
-	/** @var DBAL\Connection */
-	private $connection;
+	/** @var array */
+	private $types = [];
 
 	public function __construct(DBAL\Connection $connection)
 	{
-		$this->connection = $connection;
+		$connection->getEventManager()->addEventListener(DBAL\Events::postConnect, $this);
 	}
 
 	/**
@@ -33,9 +33,23 @@ class TypeHelper
 			DBAL\Types\Type::addType($dbType, $doctrineType);
 		}
 
-		$platform = $this->connection->getDatabasePlatform();
-		$platform->registerDoctrineTypeMapping($dbType, $dbType);
-		$platform->markDoctrineTypeCommented(DBAL\Types\Type::getType($dbType));
+		// Register later, in postConnect.
+		// This prevents unnecessary early connection.
+		$this->types[] = [$dbType, $doctrineType];
+	}
+
+	/**
+	 * @param DBAL\Event\ConnectionEventArgs $args
+	 * @internal
+	 */
+	public function postConnect(DBAL\Event\ConnectionEventArgs $args)
+	{
+		$platform = $args->getDatabasePlatform();
+
+		foreach ($this->types as list($dbType, $doctrineType)) {
+			$platform->registerDoctrineTypeMapping($dbType, $dbType);
+			$platform->markDoctrineTypeCommented(DBAL\Types\Type::getType($dbType));
+		}
 	}
 
 }
